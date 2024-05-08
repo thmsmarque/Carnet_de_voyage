@@ -14,7 +14,7 @@ public class MainCahier extends Application {
 
         stage.setTitle("Cahier de voyages");
         BorderPane root = new BorderPane();
-        stage.setScene(new Scene(root, 540,700 ));
+        stage.setScene(new Scene(root, 600,800 ));
 
         stage.show();
     }

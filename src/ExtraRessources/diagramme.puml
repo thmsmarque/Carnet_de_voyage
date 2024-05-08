@@ -1,0 +1,278 @@
+@startuml
+
+skinparam class {
+   BackgroundColor<<java>> Wheat
+   BorderColor<<java>> Tomato
+}
+
+
+package projetIG
+{
+
+package vues{
+
+class Pane<<java>>
+class VBox<<java>>
+class BorderPane<<java>>
+class Button<<java>>
+class TilePane<<java>>
+class EventHandler<<java>>
+class InputField<<java>>
+class MenuBar<<java>>
+class MenuItem<<java>>
+class Menu<<java>>
+
+interface Observateur {
+          void reagir()
+        }
+
+class PanneauDeControle
+{
+
+public PanneauDeControle(Cahier c)
+
+public void pageSuivante()
+public void pagePrecedente()
+public void choisirPage(string id)
+public void changerStyle()
+public void ajouterNode(string id)
+public void supprimerNode(string id)
+public void ajouterPage()
+public void ajouterParticipant()
+}
+
+class VueCahierIG extends BorderPane implements Observateur
+{
+public VueCahierIG()
+public reagir()
+
+}
+
+Abstract VuePageIG extends VBox implements Observateur
+{
+public VuePageIG(Cahier c, PageIG page)
+}
+
+class VuePageJourIG extends VuePageIG
+{
+public VuePageJourIG(Cahier c)
+public void reagir()
+}
+
+class VuePageDeGardeIG extends VuePageIG
+{
+public VuePageDeGardeIG(Cahier c)
+public void reagir()
+}
+
+class VueNodeIG extends Pane implements Observateur
+{
+public VueNodeIG()
+public reagir()
+}
+
+class VueChangePage extends TilePane implements Observateur
+{
+public VueChangePage(Cahier C)
+public reagir()
+}
+
+class VueMenuBar extends MenuBar implements Observateur
+{
+public VueMenurBar(Cahier c)
+void reagit()
+}
+
+class EcouteurModeEditionLecture extends PanneauDeControle implements Observateur
+{
+public EcouteurModeEditionLecture(Cahier c)
+void handler(ActionEvent event)
+}
+
+class EcouteurChangerStyle extends PanneauDeControle implements  EventHandler
+{
+public EcouteurChangerStyle(Cahier c)
+void handler(ActionEvent event)
+}
+
+
+class EcouteurBoutonDernierePage extends PanneauDeControle implements EventHandler
+{
+public EcouteurBoutonDernierePage(Cahier c)
+void handler(ActionEvent event)
+}
+
+class EcouteurTournerGauche extends PanneauDeControle implements EventHandler
+{
+public EcouteurTournerGauche(VueChangePage ch)
+void handle(ActionEvent event)
+}
+
+class EcouteurTournerDroite extends PanneauDeControle implements EventHandler
+{
+public EcouteurTournerDroite(VueChangePage ch)
+void handle(ActionEvent event)
+}
+
+class EcouteurAjoutNodeTexte extends PanneauDeControle implements EventHandler
+{
+public EcouteurAjoutNodeTexte()
+void handle(ActionEvent event)
+}
+
+class EcouteurAjoutNodeGPS extends PanneauDeControle implements EventHandler
+{
+public EcouteurAjoutNodeGPS()
+void handle(ActionEvent event)
+}
+
+class EcouteurAjoutNodeImage extends PanneauDeControle implements EventHandler
+{
+public EcouteurAjoutNodeImage()
+void handle(ActionEvent event)
+}
+
+class EcouteurChangementPage extends PanneauDeControle implements EventHandler
+{
+public EcouteurChangementPage(VueChangePage ch)
+void handle(ActionEvent event)
+}
+
+class EcouteurPageAleatoire extends PanneauDeControle implements EventHandler
+{
+public EcouteurPageAleatoire(CahierIG c)
+void handle(ActionEvent event)
+}
+
+}
+
+package outils{
+
+class FabriqueIdentifiant {
+int noPage
+int noNode
+static FabriqueIdentifiant getInstance()
+String getIdentifiantPage()
+String getIdentifiantNode()
+void resetNode()
+void resetPage()
+}
+
+
+
+}
+
+package cahierIG
+{
+
+class Date<<java>>
+
+
+class SujetObserve {
+ void ajouterObservateur(Observateur v)
+void notifierObservateurs()
+}
+
+Interface IterablePageIG<PageIG><<java>>
+{
+Iterator<PageIG> iterator()
+}
+
+Interface IterableNodeIG<NodeIG><<java>>
+{
+Iterator<NodeIG> iterator()
+}
+
+class Cahier extends SujetObserve implements IterablePageIG{
+string auteur
+string intervalleTemps
+ArrayList<string> participants
+ArrayList<PageJourIG> pages
+PageIG pageCourante
+
+public Cahier()
+public PageDeGardeIG genererPDG()
+public void ajouterPage()
+public ArrayList<PageJourIG> getPages()
+public void pageSuivane()
+public void pagePrecedente()
+public void choisirPage(string id)
+public void ajouterParticipant(string nom)
+}
+
+Abstract PageIG implements IterableNodeIG{
+string identifiantPage
+string titre
+
+public NodeIG getNodeID(string id)
+public void setNodeIG(NodeIG node)
+public void supprimerNodeIG(string id)
+}
+
+Class PageDeGardeIG extends PageIG
+{
+public PageDeGardeIG(string nomPrenom, string intervalleTemps,string[] participants)
+}
+
+Class PageJourIG extends PageIG
+{
+
+}
+
+Abstract NodeIG
+{
+string identifiantNode
+abstract boolean estTexte()
+abstract boolean estImage()
+abstract boolean estCoordGPS()
+}
+
+class NodeTexteIG extends NodeIG
+{
+string texte
+public string getTexte(string Texte)
+
+}
+
+class NodeImageIG extends NodeIG
+{
+string image
+public string getImage()
+public void setImage(string Image)
+}
+
+class NodeGPSIG extends NodeIG
+{
+string coordGPS
+public string getCoordGPS()
+public void setCoordGPS(string c)
+}
+
+}
+
+SujetObserve "1"-right "*" Observateur
+Cahier --"*" PageIG
+NodeIG "*"-- PageIG
+PageIG --"1" Date
+VuePageDeGardeIG --"*" Button
+VuePageJourIG --"*" Button
+VueChangePage --"1" InputField
+VueChangePage --"*" Button
+VueChangePage --"1" Cahier
+VueCahierIG --"1" Cahier
+VuePageJourIG --"1" Cahier
+EcouteurTournerGauche --"1" VueChangePage
+EcouteurTournerDroite --"1" VueChangePage
+EcouteurChangementPage --"1" VueChangePage
+EcouteurPageAleatoire --"1" Cahier
+EcouteurBoutonDernierePage --"1"Cahier
+VueMenuBar --"1" Cahier
+EcouteurChangerStyle --"1" VueMenuBar
+VueMenuBar --"*" MenuItem
+PanneauDeControle --"1" Cahier
+
+
+
+
+}
+@enduml
