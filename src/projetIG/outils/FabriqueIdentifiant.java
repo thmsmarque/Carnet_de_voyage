@@ -10,7 +10,7 @@ public class FabriqueIdentifiant {
     private FabriqueIdentifiant()
     {
         noNode=0;
-        noPage=0;
+        noPage=1;
     }
 
     /**
@@ -28,7 +28,9 @@ public class FabriqueIdentifiant {
      */
     public String getIdentifiantPage()
     {
-        return null;
+        String res = "page"+noPage
+        noPage += 1
+        return res;
     }
 
     /**
@@ -53,6 +55,6 @@ public class FabriqueIdentifiant {
      */
     public void resetPage()
     {
-        noPage = 0;
+        noPage = 1;
     }
 }
