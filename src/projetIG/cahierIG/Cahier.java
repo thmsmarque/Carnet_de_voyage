@@ -2,10 +2,7 @@ package cahierIG;
 
 import exceptions.CahierException;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 
 public class Cahier implements Iterable<PageIG> {
 
@@ -26,7 +23,7 @@ public class Cahier implements Iterable<PageIG> {
     /**
      * Génère une page de garde
      */
-    void PageDeGardeIG genererPDG()
+    PageDeGardeIG genererPDG()
     {
         PageDeGardeIG pdg = new PageDeGardeIG();
         return pdg;
@@ -35,11 +32,25 @@ public class Cahier implements Iterable<PageIG> {
     /**
      * Ajouter une nouvelle page si elle n'a pas déjà été ajoutée
      */
-    public void ajouterPage(Date date) throws CahierException
+    public void ajouterPage(Date date, String titre) throws CahierException
     {
-        PageJourIG page = new PageJourIG(date)
-        pages.putIfAbsent(date,page)
+        if(pages.containsKey(date))
+        {
+            throw new CahierException("Problème! Cette date a déjà été attribuée à une page");
+        }
+        PageJourIG page = new PageJourIG(date, titre);
+        pages.put(date,page);
+        courante = page;
         trierPages();
+    }
+
+    /**
+     * Retourne la page courante
+     * @return la page courante
+     */
+    public PageIG getCourante()
+    {
+        return courante;
     }
 
     /** 
@@ -47,23 +58,22 @@ public class Cahier implements Iterable<PageIG> {
      */
     private void trierPages()
     {
-
-        for(PageIG page : pages.values())
-        {
-            if(page.getDateDuJour().equals(date))
-            {
-                throw new CahierException("Problème : la date renseignée a déjà été attribuée ")
-            }
+        Map<Date, PageIG> map = new TreeMap<Date, PageIG>(pages);
+        HashMap<Date,PageIG> sortedHashmap = new HashMap<>();
+        Set set = map.entrySet();
+        Iterator it = set.iterator();
+        while(it.hasNext()) {
+            Map.Entry entry = (Map.Entry) it.next();
+            sortedHashmap.put((Date)entry.getKey(),(PageIG)entry.getValue());
         }
-
-
+        pages = sortedHashmap;
     }
 
     /**
      * Retourne les pages du cahier déjà présentes
-     * @return
+     * @return les pages
      */
-    public ArrayList<PageIG> getPages()
+    public Collection<PageIG> getPages()
     {
         return pages.values();
     }
@@ -74,6 +84,15 @@ public class Cahier implements Iterable<PageIG> {
     public void pageSuivante()
     {
         
+    }
+
+    /**
+     * Retourne le nombre de jours déjà entrés
+     * @return nombre de PageIG
+     */
+    public int nombreDeJours()
+    {
+        return pages.size();
     }
 
     /**
@@ -94,12 +113,42 @@ public class Cahier implements Iterable<PageIG> {
     }
 
     /**
+     * Retourne une PageIG
+     * @param date date de la page à récupérer
+     * @return page
+     */
+    public PageIG getPage(Date date) throws CahierException
+    {
+        if(!pages.containsKey(date))
+        {
+            throw new CahierException("Problème! Cette page n'existe pas");
+        }else
+        {
+            return pages.get(date);
+        }
+    }
+
+    /**
      * Ajouter un participant à la liste
      * @param nom nom du participant à ajouter
      */
     public void ajouterParticipant(String nom)
     {
         participants.add(nom);
+    }
+
+    /**
+     * Montre la suite des jours dans l'ordre chronologique
+     * @return
+     */
+    public String toString()
+    {
+        String res = "";
+        for(PageIG page : pages.values())
+        {
+            res += page.toString() + "\n";
+        }
+        return res;
     }
 
 

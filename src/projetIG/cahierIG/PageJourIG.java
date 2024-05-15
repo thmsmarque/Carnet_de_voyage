@@ -8,7 +8,12 @@ public class PageJourIG extends PageIG{
     Date dateDuJour;
 
     public PageJourIG(Date date){
-        super();
+        super(date);
+        this.dateDuJour = date;
+    }
+
+    public PageJourIG(Date date, String titre){
+        super(date,titre);
         this.dateDuJour = date;
     }
 

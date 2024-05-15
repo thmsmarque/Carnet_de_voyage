@@ -1,6 +1,7 @@
 package vues;
 
 import cahierIG.Cahier;
+import exceptions.CahierException;
 
 import java.util.Date;
 
@@ -30,11 +31,11 @@ public class PanneauDeControle {
 
     /**
      * Passe la page courante à celle passée en paramètre
-     * @param id page à regarder
+     * @param date page à regarder
      */
-    public void choisirPage(String id)
+    public void choisirPage(Date date)
     {
-        cahier.changerPage(id);
+        cahier.changerPage(date);
     }
 
     /**
@@ -65,9 +66,8 @@ public class PanneauDeControle {
     /**
      * Si elle n'existe pas, ajoute une nouvelle date
      */
-    public void ajouterPage(Date date)
-    {
-        cahier.ajouterPage(date);
+    public void ajouterPage(Date date, String titre) throws CahierException {
+        cahier.ajouterPage(date,titre);
     }
 
     /**

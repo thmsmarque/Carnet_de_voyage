@@ -1,8 +1,9 @@
 package cahierIG;
 
-import java.io.Serializable;
+import outils.FabriqueIdentifiant;
+
+import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 
 public abstract class PageIG implements Iterable<NodeIG>{
 
@@ -12,9 +13,16 @@ public abstract class PageIG implements Iterable<NodeIG>{
 
     HashMap<String, NodeIG> nodes;
 
+    public PageIG()
+    {
+        new HashMap<String, NodeIG>();
+        dateDuJour = new Date();
+    }
+
     public PageIG (Date dateDuJour, String titre) {
         new HashMap<String,NodeIG>();
         this.dateDuJour = dateDuJour;
+        this.titre = titre;
     }
 
     public PageIG (Date dateDuJour) {
@@ -67,6 +75,24 @@ public abstract class PageIG implements Iterable<NodeIG>{
     public void supprimerNodeIG(String id)
     {
 
+    }
+
+    /**
+     * Retourne le titre de la journée
+     * @return le titre de la journée
+     */
+    public String getTitre()
+    {
+        return titre;
+    }
+
+    /**
+     * Renvoie une chaîne de caractère
+     * @return
+     */
+    public String toString()
+    {
+        return titre + " " + dateDuJour.getDate() + " " + (dateDuJour.getMonth()+1) + " " + dateDuJour.getYear();
     }
 
     public abstract Boolean estPageJour();

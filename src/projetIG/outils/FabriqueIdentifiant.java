@@ -17,7 +17,7 @@ public class FabriqueIdentifiant {
      *
      * @return une instance de FabriqueIdentifiant
      */
-    public FabriqueIdentifiant getInstance()
+    static public FabriqueIdentifiant getInstance()
     {
         return instance;
     }
@@ -28,8 +28,8 @@ public class FabriqueIdentifiant {
      */
     public String getIdentifiantPage()
     {
-        String res = "page"+noPage
-        noPage += 1
+        String res = "page"+noPage;
+        noPage += 1;
         return res;
     }
 
