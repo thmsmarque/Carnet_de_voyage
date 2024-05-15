@@ -12,27 +12,40 @@ public class Cahier implements Iterable<PageIG> {
     String auteur;
     String intervalleTemps;
     ArrayList<String> participants;
-    HashMap<String,PageIG> pages;
+    HashMap<Date,PageIG> pages;
     PageIG courante;
+    PageDeGardeIG pdg;
 
     public Cahier()
     {
         participants = new ArrayList<>();
-        pages = new HashMap<String, PageIG>();
+        pages = new HashMap<Date, PageIG>();
+        pdg = genererPDG();
     }
 
     /**
      * Génère une page de garde
      */
-    void genererPDG()
+    void PageDeGardeIG genererPDG()
     {
-
+        PageDeGardeIG pdg = new PageDeGardeIG();
+        return pdg;
     }
 
     /**
-     * Ajouter une nouvelle page
+     * Ajouter une nouvelle page si elle n'a pas déjà été ajoutée
      */
     public void ajouterPage(Date date) throws CahierException
+    {
+        PageJourIG page = new PageJourIG(date)
+        pages.putIfAbsent(date,page)
+        trierPages();
+    }
+
+    /** 
+     * Trie les pages dans un ordre chronologique
+     */
+    private void trierPages()
     {
 
         for(PageIG page : pages.values())
@@ -52,7 +65,7 @@ public class Cahier implements Iterable<PageIG> {
      */
     public ArrayList<PageIG> getPages()
     {
-        return null;
+        return pages.values();
     }
 
     /**
@@ -60,7 +73,7 @@ public class Cahier implements Iterable<PageIG> {
      */
     public void pageSuivante()
     {
-
+        
     }
 
     /**
@@ -73,11 +86,11 @@ public class Cahier implements Iterable<PageIG> {
 
     /**
      * définit la page comme étant celle passée en param
-     * @param identifiant la page à accéder
+     * @param date la page à accéder
      */
-    public void changerPage(String identifiant)
+    public void changerPage(Date date)
     {
-
+        courante = pages.get(date);
     }
 
     /**
@@ -86,7 +99,7 @@ public class Cahier implements Iterable<PageIG> {
      */
     public void ajouterParticipant(String nom)
     {
-
+        participants.add(nom);
     }
 
 

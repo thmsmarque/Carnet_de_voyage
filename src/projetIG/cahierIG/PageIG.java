@@ -1,7 +1,6 @@
 package cahierIG;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -21,6 +20,13 @@ public abstract class PageIG implements Iterable<NodeIG>{
     public PageIG (Date dateDuJour) {
         new HashMap<String,NodeIG>();
         this.dateDuJour = dateDuJour;
+        this.identifiant = FabriqueIdentifiant.getInstance().getIdentifiantPage();
+    }
+
+
+    public String getIdentifiantPage()
+    {
+        return identifiant;
     }
 
     /**
