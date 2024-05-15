@@ -1,5 +1,7 @@
 package cahierIG;
 
+import exceptions.CahierException;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -30,8 +32,17 @@ public class Cahier implements Iterable<PageIG> {
     /**
      * Ajouter une nouvelle page
      */
-    public void ajouterPage(Date date)
+    public void ajouterPage(Date date) throws CahierException
     {
+
+        for(PageIG page : pages.values())
+        {
+            if(page.getDateDuJour().equals(date))
+            {
+                throw new CahierException("Problème : la date renseignée a déjà été attribuée ")
+            }
+        }
+
 
     }
 

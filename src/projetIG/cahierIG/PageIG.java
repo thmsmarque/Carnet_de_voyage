@@ -7,14 +7,20 @@ import java.util.Iterator;
 
 public abstract class PageIG implements Iterable<NodeIG>{
 
-    Date dateDuJour;
+    private final Date dateDuJour;
     String titre;
     String identifiant;
 
     HashMap<String, NodeIG> nodes;
 
-    public PageIG () {
+    public PageIG (Date dateDuJour, String titre) {
         new HashMap<String,NodeIG>();
+        this.dateDuJour = dateDuJour;
+    }
+
+    public PageIG (Date dateDuJour) {
+        new HashMap<String,NodeIG>();
+        this.dateDuJour = dateDuJour;
     }
 
     /**
@@ -35,6 +41,17 @@ public abstract class PageIG implements Iterable<NodeIG>{
     public void setNodeIG(String id, NodeIG node)
     {
 
+    }
+
+
+
+    /**
+     * Retourne la date du jour de cette page
+     * @return date du jour
+     */
+    public Date getDateDuJour()
+    {
+        return dateDuJour;
     }
 
     /**
