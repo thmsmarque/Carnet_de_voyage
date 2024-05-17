@@ -7,7 +7,6 @@ import java.util.*;
 public class Cahier implements Iterable<PageIG> {
 
     String auteur;
-    String intervalleTemps;
     ArrayList<String> participants;
     HashMap<DateCahier,PageIG> pages;
     DateCahier courante;
