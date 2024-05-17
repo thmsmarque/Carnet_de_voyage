@@ -165,7 +165,7 @@ void resetPage()
 package cahierIG
 {
 
-class Date<<java>>
+class DateCahier<<java>>
 
 
 class SujetObserve {
@@ -253,7 +253,7 @@ public void setCoordGPS(string c)
 SujetObserve "1"-right "*" Observateur
 Cahier --"*" PageIG
 NodeIG "*"-- PageIG
-PageIG --"1" Date
+PageIG --"1" DateCahier
 VuePageDeGardeIG --"*" Button
 VuePageJourIG --"*" Button
 VueChangePage --"1" InputField

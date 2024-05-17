@@ -9,14 +9,16 @@ public class Cahier implements Iterable<PageIG> {
     String auteur;
     String intervalleTemps;
     ArrayList<String> participants;
-    HashMap<Date,PageIG> pages;
-    PageIG courante;
+    HashMap<DateCahier,PageIG> pages;
+    DateCahier courante;
+    DateCahier maximum, minimum;
+
     PageDeGardeIG pdg;
 
     public Cahier()
     {
         participants = new ArrayList<>();
-        pages = new HashMap<Date, PageIG>();
+        pages = new HashMap<DateCahier, PageIG>();
         pdg = genererPDG();
     }
 
@@ -32,42 +34,42 @@ public class Cahier implements Iterable<PageIG> {
     /**
      * Ajouter une nouvelle page si elle n'a pas déjà été ajoutée
      */
-    public void ajouterPage(Date date, String titre) throws CahierException
+    public void ajouterPage(DateCahier dateCahier, String titre) throws CahierException
     {
-        if(pages.containsKey(date))
+        if(pages.containsKey(dateCahier))
         {
             throw new CahierException("Problème! Cette date a déjà été attribuée à une page");
         }
-        PageJourIG page = new PageJourIG(date, titre);
-        pages.put(date,page);
-        courante = page;
-        trierPages();
+        PageJourIG page = new PageJourIG(dateCahier, titre);
+        pages.put(dateCahier,page);
+        courante = dateCahier;
+        if(minimum==null)
+        {
+            minimum = new DateCahier(dateCahier.annee, dateCahier.mois, dateCahier.jour);
+        }
+        if(maximum==null)
+        {
+            maximum = new DateCahier(dateCahier.annee, dateCahier.mois, dateCahier.jour);
+        }
+        if(dateCahier.before(minimum))
+        {
+            minimum = new DateCahier(dateCahier.annee, dateCahier.mois, dateCahier.jour);
+        }
+        if(dateCahier.after(maximum))
+        {
+            maximum = new DateCahier(dateCahier.annee, dateCahier.mois, dateCahier.jour);
+        }
     }
 
     /**
-     * Retourne la page courante
-     * @return la page courante
+     * Retourne la date courante
+     * @return la date courante
      */
-    public PageIG getCourante()
+    public DateCahier getCourante()
     {
         return courante;
     }
 
-    /** 
-     * Trie les pages dans un ordre chronologique
-     */
-    private void trierPages()
-    {
-        Map<Date, PageIG> map = new TreeMap<Date, PageIG>(pages);
-        HashMap<Date,PageIG> sortedHashmap = new HashMap<>();
-        Set set = map.entrySet();
-        Iterator it = set.iterator();
-        while(it.hasNext()) {
-            Map.Entry entry = (Map.Entry) it.next();
-            sortedHashmap.put((Date)entry.getKey(),(PageIG)entry.getValue());
-        }
-        pages = sortedHashmap;
-    }
 
     /**
      * Retourne les pages du cahier déjà présentes
@@ -79,12 +81,23 @@ public class Cahier implements Iterable<PageIG> {
     }
 
     /**
-     * définit la page courante comme étant la suivante
+     * passe à la journée d'après
      */
-    public void pageSuivante()
+    public void jourSuivant()
     {
-        
+        DateCahier nouvelle = new DateCahier(courante.annee, courante.mois, courante.jour);
+        try {
+            nouvelle.setDate(nouvelle.jourSuivant());
+            while(!pages.containsKey(nouvelle))
+            {
+                nouvelle.setDate(nouvelle.jourSuivant());
+            }
+            courante = nouvelle;
+        } catch (CahierException e) {
+            throw new RuntimeException(e);
+        }
     }
+
 
     /**
      * Retourne le nombre de jours déjà entrés
@@ -98,33 +111,43 @@ public class Cahier implements Iterable<PageIG> {
     /**
      * définit la page courante comme étant la précédente
      */
-    public void pagePrecedente()
+    public void jourPrecedent()
     {
-
+        DateCahier nouvelle = new DateCahier(courante.annee, courante.mois, courante.jour);
+        try {
+            nouvelle.setDate(nouvelle.jourPrecedent());
+            while(!pages.containsKey(nouvelle))
+            {
+                nouvelle.setDate(nouvelle.jourPrecedent());
+            }
+            courante = nouvelle;
+        } catch (CahierException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
      * définit la page comme étant celle passée en param
-     * @param date la page à accéder
+     * @param dateCahier la page à accéder
      */
-    public void changerPage(Date date)
+    public void changerPage(DateCahier dateCahier)
     {
-        courante = pages.get(date);
+        courante = dateCahier;
     }
 
     /**
      * Retourne une PageIG
-     * @param date date de la page à récupérer
+     * @param dateCahier date de la page à récupérer
      * @return page
      */
-    public PageIG getPage(Date date) throws CahierException
+    public PageIG getPage(DateCahier dateCahier) throws CahierException
     {
-        if(!pages.containsKey(date))
+        if(!pages.containsKey(dateCahier))
         {
             throw new CahierException("Problème! Cette page n'existe pas");
         }else
         {
-            return pages.get(date);
+            return pages.get(dateCahier);
         }
     }
 
@@ -149,6 +172,24 @@ public class Cahier implements Iterable<PageIG> {
             res += page.toString() + "\n";
         }
         return res;
+    }
+
+    /**
+     * Retourne la date maximum
+     * @return date max
+     */
+    public DateCahier getMaximum()
+    {
+        return maximum;
+    }
+
+    /**
+     * Retourne la date minimum
+     * @return date min
+     */
+    public DateCahier getMinimum()
+    {
+        return minimum;
     }
 
 

@@ -1,20 +1,20 @@
 package cahierIG;
 
+import exceptions.CahierException;
+
 import java.util.Iterator;
 import java.util.Date;
 
 public class PageJourIG extends PageIG{
 
-    Date dateDuJour;
+    DateCahier dateCahierDuJour;
 
-    public PageJourIG(Date date){
+    public PageJourIG(DateCahier date){
         super(date);
-        this.dateDuJour = date;
     }
 
-    public PageJourIG(Date date, String titre){
+    public PageJourIG(DateCahier date, String titre){
         super(date,titre);
-        this.dateDuJour = date;
     }
 
     
@@ -32,9 +32,9 @@ public class PageJourIG extends PageIG{
     /**
      * Retourne la date de cette page
      */
-    public Date getDate()
+    public DateCahier getDate()
     {
-        return dateDuJour;
+        return dateCahierDuJour;
     }
 
     @Override

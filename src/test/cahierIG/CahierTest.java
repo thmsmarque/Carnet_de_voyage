@@ -33,8 +33,8 @@ class CahierTest {
     @Test
     void getPages() throws CahierException {
         Cahier cahier = new Cahier();
-        Date date = new Date(2002, Calendar.AUGUST,27);
-        Date date2 = new Date(2003, Calendar.AUGUST,27);
+        DateCahier date = new Date(2002, Calendar.AUGUST,27);
+        DateCahier date2 = new Date(2003, Calendar.AUGUST,27);
 
         cahier.ajouterPage(date,"Ma naissance");
         cahier.ajouterPage(date2,"Ma naissance2");
@@ -47,8 +47,8 @@ class CahierTest {
     @Test
     void pageSuivante() throws CahierException {
         Cahier cahier = new Cahier();
-        Date date = new Date(2002, Calendar.AUGUST,27);
-        Date date2 = new Date(2003, Calendar.AUGUST,27);
+        DateCahier date = new DateCahier(2002, Calendar.AUGUST,27);
+        DateCahier date2 = new Date(2003, Calendar.AUGUST,27);
 
         cahier.ajouterPage(date,"Ma naissance");
         assertEquals(cahier.getPage(date),cahier.getCourante());

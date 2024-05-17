@@ -1,5 +1,6 @@
 package cahierIG;
 
+import exceptions.CahierException;
 import outils.FabriqueIdentifiant;
 
 import java.util.Date;
@@ -7,7 +8,8 @@ import java.util.HashMap;
 
 public abstract class PageIG implements Iterable<NodeIG>{
 
-    private final Date dateDuJour;
+    private DateCahier dateDuJour = null
+            ;
     String titre;
     String identifiant;
 
@@ -16,16 +18,18 @@ public abstract class PageIG implements Iterable<NodeIG>{
     public PageIG()
     {
         new HashMap<String, NodeIG>();
-        dateDuJour = new Date();
+        dateDuJour = new DateCahier();
     }
 
-    public PageIG (Date dateDuJour, String titre) {
+    public PageIG (DateCahier dateDuJour, String titre) {
         new HashMap<String,NodeIG>();
-        this.dateDuJour = dateDuJour;
+
+            this.dateDuJour = dateDuJour;
+
         this.titre = titre;
     }
 
-    public PageIG (Date dateDuJour) {
+    public PageIG (DateCahier dateDuJour) {
         new HashMap<String,NodeIG>();
         this.dateDuJour = dateDuJour;
         this.identifiant = FabriqueIdentifiant.getInstance().getIdentifiantPage();
@@ -63,7 +67,7 @@ public abstract class PageIG implements Iterable<NodeIG>{
      * Retourne la date du jour de cette page
      * @return date du jour
      */
-    public Date getDateDuJour()
+    public DateCahier getDateDuJour()
     {
         return dateDuJour;
     }
