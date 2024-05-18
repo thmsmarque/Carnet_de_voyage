@@ -8,10 +8,10 @@ import java.util.HashMap;
 
 public abstract class PageIG implements Iterable<NodeIG>{
 
-    private DateCahier dateDuJour = null
-            ;
+    private DateCahier dateDuJour = null;
     String titre;
     String identifiant;
+    NodeIG nodeSelectionnee;
 
     HashMap<String, NodeIG> nodes;
 
@@ -53,12 +53,14 @@ public abstract class PageIG implements Iterable<NodeIG>{
 
     /**
      * Change la node séléctionnée
-     * @param id identifiant du node à changer
      * @param node nouvelle node
      */
-    public void setNodeIG(String id, NodeIG node)
+    public void setNodeIG(NodeIG node)
     {
-
+        if(nodeSelectionnee!=null)
+        {
+            nodeSelectionnee = node;
+        }
     }
 
 

@@ -87,16 +87,33 @@ public class Cahier implements Iterable<PageIG> {
         DateCahier nouvelle = new DateCahier(courante.annee, courante.mois, courante.jour);
         try {
             nouvelle.setDate(nouvelle.jourSuivant());
-            while(!pages.containsKey(nouvelle))
+            do
             {
                 nouvelle.setDate(nouvelle.jourSuivant());
-            }
+            }while(!this.estDejaDansCahier(nouvelle));
             courante = nouvelle;
         } catch (CahierException e) {
             throw new RuntimeException(e);
         }
     }
 
+
+    /**
+     * Cette méthode test si la date est déjà présente dans le cahier
+     * @param date date à tester
+     * @return vrai si déjà présent sinon faux
+     */
+    public boolean estDejaDansCahier(DateCahier date)
+    {
+        for(PageIG page : pages.values())
+        {
+            if(page.getDateDuJour().equals(date))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * Retourne le nombre de jours déjà entrés
@@ -115,10 +132,10 @@ public class Cahier implements Iterable<PageIG> {
         DateCahier nouvelle = new DateCahier(courante.annee, courante.mois, courante.jour);
         try {
             nouvelle.setDate(nouvelle.jourPrecedent());
-            while(!pages.containsKey(nouvelle))
+            do
             {
                 nouvelle.setDate(nouvelle.jourPrecedent());
-            }
+            }while(!this.estDejaDansCahier(nouvelle));
             courante = nouvelle;
         } catch (CahierException e) {
             throw new RuntimeException(e);
@@ -129,9 +146,12 @@ public class Cahier implements Iterable<PageIG> {
      * définit la page comme étant celle passée en param
      * @param dateCahier la page à accéder
      */
-    public void changerPage(DateCahier dateCahier)
+    public void changerPage(DateCahier dateCahier) throws CahierException
     {
-        courante = dateCahier;
+        if(this.estDejaDansCahier(dateCahier))
+            courante = dateCahier;
+        else
+            throw new CahierException("Ce jour n'existe pas");
     }
 
     /**
@@ -159,19 +179,6 @@ public class Cahier implements Iterable<PageIG> {
         participants.add(nom);
     }
 
-    /**
-     * Montre la suite des jours dans l'ordre chronologique
-     * @return
-     */
-    public String toString()
-    {
-        String res = "";
-        for(PageIG page : pages.values())
-        {
-            res += page.toString() + "\n";
-        }
-        return res;
-    }
 
     /**
      * Retourne la date maximum
@@ -191,9 +198,35 @@ public class Cahier implements Iterable<PageIG> {
         return minimum;
     }
 
+    /**
+     * Définit une nouvelle date courante
+     * @param date nouvelle date
+     */
+    public void setCourante(DateCahier date)
+    {
+        this.courante = date;
+    }
+
+    /**
+     * Renvoi sous forme de String les jours existants et leurs titres
+     * @return une chaîne de caractère
+     */
+    public String toString()
+    {
+        String res = "Les pages du cahier:\n";
+        for(PageIG page : pages.values())
+        {
+            res += page.toString() + "\n";
+        }
+
+        return res;
+    }
+
 
     @Override
     public Iterator<PageIG> iterator() {
         return pages.values().iterator();
     }
+
+
 }

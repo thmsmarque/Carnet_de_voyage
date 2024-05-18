@@ -31,8 +31,8 @@ class PanneauDeControle
 
 public PanneauDeControle(Cahier c)
 
-public void pageSuivante()
-public void pagePrecedente()
+public void jourSuivant()
+public void jourPrecedent()
 public void choisirPage(string id)
 public void changerStyle()
 public void ajouterNode(string id)
@@ -177,7 +177,7 @@ public PageDeGardeIG genererPDG()
 public void ajouterPage()
 public ArrayList<PageJourIG> getPages()
 public void pageSuivane()
-public void pagePrecedente()
+public void jourPrecedent()
 public void choisirPage(string id)
 public void ajouterParticipant(string nom)
 }

@@ -162,11 +162,15 @@ public class DateCahier extends Date {
             jourSuivant.setJour(1);
             jourSuivant.setMois(1);
             jourSuivant.setAnnee(annee+1);
+        }else
+        {
+            //Jour banal
+            jourSuivant.setJour(jour+1);
         }
 
 
 
-        return jourSuivant();
+        return jourSuivant;
     }
 
     /**
@@ -180,8 +184,8 @@ public class DateCahier extends Date {
 
         if(mois == 3 && jour == 1)//Si nous somme le dernier jour de février
         {
-            jourSuivant.setJour(2);
-            jourSuivant.setMois(28);
+            jourSuivant.setJour(28);
+            jourSuivant.setMois(2);
         }else if((mois == 2 || mois == 4 || mois ==6 || mois == 8 || mois == 9 || mois == 11) && jour == 1)
         {
             jourSuivant.setJour(31);
@@ -197,11 +201,27 @@ public class DateCahier extends Date {
             jourSuivant.setJour(31);
             jourSuivant.setMois(12);
             jourSuivant.setAnnee(annee-1);
+        }else
+        {
+            jourSuivant.setJour(jour-1);
         }
 
 
 
-        return jourSuivant();
+        return jourSuivant;
+    }
+
+    /**
+     * Test si la date passée en param est la même
+     * @param date la date à tester
+     * @return vrai si identiques faux sinon
+     */
+    public boolean equals(DateCahier date)
+    {
+        if(this.jour == date.jour && this.mois == date.mois && this.annee == date.annee)
+            return true;
+        else
+            return false;
     }
 
 }

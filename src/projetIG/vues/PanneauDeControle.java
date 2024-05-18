@@ -17,17 +17,17 @@ public class PanneauDeControle {
     /**
      * Passe la page courante à la page suivante
      */
-    public void pageSuivante()
+    public void jourSuivant()
     {
-        cahier.pageSuivante();
+        cahier.jourSuivant();
     }
 
     /**
      * Passe la page courante du cahier à la page précédente
      */
-    public void pagePrecedente()
+    public void jourPrecedent()
     {
-        cahier.pagePrecedente();
+        cahier.jourPrecedent();
     }
 
     /**
@@ -36,7 +36,11 @@ public class PanneauDeControle {
      */
     public void choisirPage(DateCahier date)
     {
-        cahier.changerPage(date);
+        try {
+            cahier.changerPage(date);
+        } catch (CahierException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
