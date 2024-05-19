@@ -8,9 +8,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import vues.Observateur;
 import vues.PanneauDeControle;
 
-public class ControlleurPageJour {
+public class ControlleurPageJour implements Observateur {
 
     @FXML
     private Label date1;
@@ -42,6 +43,8 @@ public class ControlleurPageJour {
     public ControlleurPageJour(Cahier c, PanneauDeControle panneauDeControle) {
         this.cahier = c;
         this.panneauDeControle = panneauDeControle;
+        panneauDeControle.controlleurPageJour=this;
+        c.ajouterObservateur(this);
     }
 
     /**
@@ -51,12 +54,11 @@ public class ControlleurPageJour {
     void initialize() {
         PageJourIG page = null;
         try {
-            page =(PageJourIG)cahier.getPage(cahier.getCourante());
+            page = (PageJourIG)cahier.getPage(cahier.getCourante());
+            System.out.println(page);
+            date1.setText(page.getDate().toString());
+            date2.setText(page.getDate().format2());
             titrePage.setText(page.getTitre());
-            description.setText(page.getDescription());
-            photo.setImage(new Image(page.getPhoto()));
-            numero.setText(page.getNumeroPage() + "/" + carnet.getNbPagesJour());
-            setMap(page.getX(), page.getY());
         } catch (CahierException e) {
             throw new RuntimeException(e);
         }
@@ -85,12 +87,29 @@ public class ControlleurPageJour {
 
     @FXML
     void pagePrecedente(ActionEvent event) {
-
+        panneauDeControle.jourPrecedent();
+        cahier.notifierObservateurs();
     }
 
     @FXML
     void pageSuivante(ActionEvent event) {
+        panneauDeControle.jourSuivant();
+        cahier.notifierObservateurs();
 
     }
 
+    @Override
+    public void reagir() {
+        panneauDeControle.chargerPageActuelle();
+        PageJourIG page = null;
+        try {
+            page = (PageJourIG)cahier.getPage(cahier.getCourante());
+            //System.out.println(page.getDate().toString() + " " + page.getDate().format2());
+            //date1.setText(page.getDate().toString());
+            //date2.setText(page.getDate().format2());
+            //titrePage.setText(page.getTitre());
+        } catch (CahierException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

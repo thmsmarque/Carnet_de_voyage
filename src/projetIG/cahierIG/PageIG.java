@@ -6,7 +6,7 @@ import outils.FabriqueIdentifiant;
 import java.util.Date;
 import java.util.HashMap;
 
-public abstract class PageIG implements Iterable<NodeIG>{
+public abstract class PageIG{
 
     private DateCahier dateDuJour = null;
     String titre;
@@ -20,13 +20,13 @@ public abstract class PageIG implements Iterable<NodeIG>{
     public PageIG()
     {
         new HashMap<String, NodeIG>();
-        dateDuJour = new DateCahier();
+        dateDuJour = new DateCahier("01/01/2000");
+
     }
 
     public PageIG (DateCahier dateDuJour, String titre) {
 
-            this.dateDuJour = dateDuJour;
-
+        this.dateDuJour = dateDuJour;
         this.titre = titre;
     }
 
@@ -82,6 +82,11 @@ public abstract class PageIG implements Iterable<NodeIG>{
     public void supprimerNodeIG(String id)
     {
 
+    }
+
+    public NodeIG getNodeSelectionnee()
+    {
+        return nodeSelectionnee;
     }
 
     /**

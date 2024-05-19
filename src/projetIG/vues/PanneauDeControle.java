@@ -3,15 +3,25 @@ package vues;
 import cahierIG.Cahier;
 import cahierIG.DateCahier;
 import exceptions.CahierException;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import vues.controlleurs.ControlleurPageJour;
 
+import java.io.IOException;
 import java.util.Date;
 
 public class PanneauDeControle {
 
     Cahier cahier;
-    public PanneauDeControle(Cahier c)
+    Stage stage;
+    public ControlleurPageJour controlleurPageJour;
+    public PanneauDeControle(Cahier c, Stage stage)
     {
         cahier = c;
+        this.stage = stage;
+
     }
 
     /**
@@ -73,6 +83,27 @@ public class PanneauDeControle {
      */
     public void ajouterPage(DateCahier date, String titre) throws CahierException {
         cahier.ajouterPage(date,titre);
+        cahier.ajouterPage(date.jourPrecedent(),"Jour Ancien");
+    }
+
+    public void chargerPageActuelle()
+    {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/PageJour.fxml"));
+        loader.setControllerFactory(ic -> {
+            if (ic.equals(vues.controlleurs.ControlleurPageJour.class)) return controlleurPageJour;
+            return null;
+        });
+
+        final BorderPane root;
+        try {
+            root = loader.load();
+            final Scene scene = new Scene(root, 600, 800);
+            stage.setScene(scene);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     /**

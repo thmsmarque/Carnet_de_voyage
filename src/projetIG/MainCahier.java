@@ -1,4 +1,5 @@
 import cahierIG.Cahier;
+import cahierIG.DateCahier;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -6,6 +7,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import vues.PanneauDeControle;
 import vues.controlleurs.ControlleurPageDeGarde;
+import vues.controlleurs.ControlleurPageJour;
 
 import java.io.IOException;
 import java.net.URL;
@@ -21,7 +23,7 @@ public class MainCahier extends Application {
     public void start(Stage stage) throws Exception {
 
         Cahier cahier = new Cahier();
-        PanneauDeControle panneauDeControle = new PanneauDeControle(cahier);
+        PanneauDeControle panneauDeControle = new PanneauDeControle(cahier,stage);
             // Localisation du fichier FXML.
             final URL url = getClass().getResource("/fxml/PDG_Carnet.fxml");
             // Création du loader.
@@ -29,11 +31,12 @@ public class MainCahier extends Application {
 
 
         ControlleurPageDeGarde controlleurPageDeGarde = new ControlleurPageDeGarde(cahier, panneauDeControle);
-
+        ControlleurPageJour controlleurPageJour = new ControlleurPageJour(cahier, panneauDeControle);
 
 
         fxmlLoader.setControllerFactory(ic-> {
             if(ic.equals(vues.controlleurs.ControlleurPageDeGarde.class)) return controlleurPageDeGarde;
+            else if(ic.equals(vues.controlleurs.ControlleurPageJour.class)) return controlleurPageJour;
             else return null;
         });
 

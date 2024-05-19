@@ -21,7 +21,7 @@ public class VuePageDeGardeIG{
     @FXML
     private void allerAPageDuJour()
     {
-        PanneauDeControle pdc = new PanneauDeControle(cahier);
+        //PanneauDeControle pdc = new PanneauDeControle(cahier);
     }
 
 

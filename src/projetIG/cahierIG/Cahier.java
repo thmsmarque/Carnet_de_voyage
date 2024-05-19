@@ -85,15 +85,17 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
     public void jourSuivant()
     {
         DateCahier nouvelle = new DateCahier(courante.annee, courante.mois, courante.jour);
-        try {
-            nouvelle.setDate(nouvelle.jourSuivant());
-            do
-            {
+        if(nouvelle.after(maximum)) {
+            try {
                 nouvelle.setDate(nouvelle.jourSuivant());
-            }while(!this.estDejaDansCahier(nouvelle));
-            courante = nouvelle;
-        } catch (CahierException e) {
-            throw new RuntimeException(e);
+                do {
+                    nouvelle.setDate(nouvelle.jourSuivant());
+                } while (!this.estDejaDansCahier(nouvelle) && nouvelle.before(maximum));
+                System.out.println("Passage au jour suivant : " + nouvelle.toString());
+                courante = nouvelle;
+            } catch (CahierException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -109,9 +111,11 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
         {
             if(page.getDateDuJour().equals(date))
             {
+                System.out.println(date.toString() + " cette date est présente dans le cahier");
                 return true;
             }
         }
+        System.out.println(date.toString() + " cette date n'est pas présente dans le cahier");
         return false;
     }
 
@@ -130,15 +134,17 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
     public void jourPrecedent()
     {
         DateCahier nouvelle = new DateCahier(courante.annee, courante.mois, courante.jour);
-        try {
-            nouvelle.setDate(nouvelle.jourPrecedent());
-            do
-            {
+        if(nouvelle.before(minimum)) {
+            try {
+                System.out.println("Passage au jour précédent : " + nouvelle.toString());
                 nouvelle.setDate(nouvelle.jourPrecedent());
-            }while(!this.estDejaDansCahier(nouvelle));
-            courante = nouvelle;
-        } catch (CahierException e) {
-            throw new RuntimeException(e);
+                do {
+                    nouvelle.setDate(nouvelle.jourPrecedent());
+                } while (!this.estDejaDansCahier(nouvelle) && nouvelle.after(minimum));
+                courante = nouvelle;
+            } catch (CahierException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -148,9 +154,10 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
      */
     public void changerPage(DateCahier dateCahier) throws CahierException
     {
-        if(this.estDejaDansCahier(dateCahier))
+        if(this.estDejaDansCahier(dateCahier)) {
+            System.out.println("Nouvelle page courante : " + getPage(dateCahier));
             courante = dateCahier;
-        else
+        }else
             throw new CahierException("Ce jour n'existe pas");
     }
 
@@ -161,12 +168,14 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
      */
     public PageIG getPage(DateCahier dateCahier) throws CahierException
     {
-        if(!pages.containsKey(dateCahier))
+        if(!this.estDejaDansCahier(dateCahier))
         {
             throw new CahierException("Problème! Cette page n'existe pas");
         }else
         {
-            return pages.get(dateCahier);
+            PageIG page = pages.get(dateCahier);
+            System.out.println("Page renvoyée : "+ page.toString());
+            return page;
         }
     }
 

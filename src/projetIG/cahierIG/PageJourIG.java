@@ -7,7 +7,6 @@ import java.util.Date;
 
 public class PageJourIG extends PageIG{
 
-    DateCahier dateCahierDuJour;
 
     public PageJourIG(DateCahier date){
         super(date);
@@ -34,11 +33,7 @@ public class PageJourIG extends PageIG{
      */
     public DateCahier getDate()
     {
-        return dateCahierDuJour;
+        return this.getDateDuJour();
     }
 
-    @Override
-    public Iterator<NodeIG> iterator() {
-        return nodes.values().iterator();
-    }
 }

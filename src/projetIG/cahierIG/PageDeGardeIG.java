@@ -19,8 +19,4 @@ public class PageDeGardeIG extends PageIG{
     }
 
 
-    @Override
-    public Iterator<NodeIG> iterator() {
-        return nodes.values().iterator();
-    }
 }
