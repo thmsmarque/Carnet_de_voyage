@@ -13,7 +13,9 @@ public abstract class PageIG implements Iterable<NodeIG>{
     String identifiant;
     NodeIG nodeSelectionnee;
 
-    HashMap<String, NodeIG> nodes;
+    NodeIG largeNode;
+    NodeIG smallNodeLeft;
+    NodeIG smallNodeRight;
 
     public PageIG()
     {
@@ -22,7 +24,6 @@ public abstract class PageIG implements Iterable<NodeIG>{
     }
 
     public PageIG (DateCahier dateDuJour, String titre) {
-        new HashMap<String,NodeIG>();
 
             this.dateDuJour = dateDuJour;
 

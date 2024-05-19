@@ -4,7 +4,7 @@ import cahierIG.Cahier;
 import cahierIG.PageIG;
 import javafx.scene.layout.VBox;
 
-public abstract class VuePageIG extends VBox implements Observateur{
+public abstract class VuePageIG implements Observateur{
 
     Cahier cahier;
     PageIG page;
