@@ -14,7 +14,7 @@ public class MainCahier extends Application {
     public void start(Stage stage) throws Exception {
 
         stage.setTitle("Cahier de voyages");
-        BorderPane root = FXMLLoader.load(getClass().getResource("mainCahier.fxml"));
+        BorderPane root = FXMLLoader.load(getClass().getResource("PDG_Carnet.fxml"));
         stage.setScene(new Scene(root, 600,800 ));
 
         stage.show();
