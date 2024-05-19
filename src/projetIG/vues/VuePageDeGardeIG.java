@@ -2,16 +2,27 @@ package vues;
 
 import cahierIG.Cahier;
 import cahierIG.PageIG;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 
-public class VuePageDeGardeIG extends VuePageIG{
+public class VuePageDeGardeIG{
 
+    @FXML
+    private Button pdjButton;
+    @FXML
+    private Button pageAleatoireButton;
 
-    public VuePageDeGardeIG(Cahier c, PageIG page) {
-        super(c, page);
+    private Cahier cahier;
+
+    VuePageDeGardeIG(Cahier c){
+        this.cahier = c;
     }
 
-    @Override
-    public void reagir() {
-
+    @FXML
+    private void allerAPageDuJour()
+    {
+        PanneauDeControle pdc = new PanneauDeControle(cahier);
     }
+
+
 }

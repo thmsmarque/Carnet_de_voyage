@@ -2,6 +2,8 @@ package cahierIG;
 
 import exceptions.CahierException;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class DateCahier extends Date {
@@ -20,9 +22,29 @@ public class DateCahier extends Date {
         }
     }
 
+    /**
+     * Constructeur dont la date est au format DD/MM/YYYY
+     * @param nouvDate la chaîne de caractère qui correspond à la date
+     */
+    public DateCahier(String nouvDate)
+    {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate date = LocalDate.parse(nouvDate, formatter);
+
+         jour = date.getDayOfMonth();
+         mois = date.getMonthValue();
+         annee = date.getYear();
+    }
+
+
     public DateCahier()
     {
         super();
+    }
+
+    public String toString()
+    {
+        return jour+"/"+mois+"/"+annee;
     }
 
     /**

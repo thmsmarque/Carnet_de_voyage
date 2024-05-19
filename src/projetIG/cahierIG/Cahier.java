@@ -4,7 +4,7 @@ import exceptions.CahierException;
 
 import java.util.*;
 
-public class Cahier implements Iterable<PageIG> {
+public class Cahier extends SujetObserve implements Iterable<PageIG>{
 
     String auteur;
     ArrayList<String> participants;
@@ -35,7 +35,7 @@ public class Cahier implements Iterable<PageIG> {
      */
     public void ajouterPage(DateCahier dateCahier, String titre) throws CahierException
     {
-        if(pages.containsKey(dateCahier))
+        if(this.estDejaDansCahier(dateCahier))
         {
             throw new CahierException("Problème! Cette date a déjà été attribuée à une page");
         }
