@@ -18,9 +18,9 @@ class DateCahierTest {
         DateCahier dec = new DateCahier(2012,12,31);
         DateCahier dec2 = new DateCahier(2013,1,1);
 
-        assertTrue(d.jourSuivant().equals(d2));
-        assertTrue(fev.jourSuivant().equals(fev2));
-        assertTrue(dec.jourSuivant().equals(dec2));
+        assertTrue(d.jourSuivant().equalsDate(d2));
+        assertTrue(fev.jourSuivant().equalsDate(fev2));
+        assertTrue(dec.jourSuivant().equalsDate(dec2));
     }
 
     @Test
@@ -34,8 +34,8 @@ class DateCahierTest {
         DateCahier dec = new DateCahier(2012,12,31);
         DateCahier dec2 = new DateCahier(2013,1,1);
 
-        assertTrue(d.jourPrecedent().equals(d2));
-        assertTrue(fev2.jourPrecedent().equals(fev));
-        assertTrue(dec2.jourPrecedent().equals(dec));
+        assertTrue(d.jourPrecedent().equalsDate(d2));
+        assertTrue(fev2.jourPrecedent().equalsDate(fev));
+        assertTrue(dec2.jourPrecedent().equalsDate(dec));
     }
 }

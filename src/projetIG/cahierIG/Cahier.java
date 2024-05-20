@@ -2,6 +2,7 @@ package cahierIG;
 
 import exceptions.CahierException;
 
+
 import java.util.*;
 
 public class Cahier extends SujetObserve implements Iterable<PageIG>{
@@ -42,6 +43,7 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
         PageJourIG page = new PageJourIG(dateCahier, titre);
         pages.put(dateCahier,page);
         courante = dateCahier;
+
         if(minimum==null)
         {
             minimum = new DateCahier(dateCahier.annee, dateCahier.mois, dateCahier.jour);
@@ -58,6 +60,8 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
         {
             maximum = new DateCahier(dateCahier.annee, dateCahier.mois, dateCahier.jour);
         }
+
+        System.out.println("Une nouvelle page a été ajoutée! => " + page.toString());
     }
 
     /**
@@ -84,10 +88,12 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
      */
     public void jourSuivant()
     {
+        System.out.println("Tentative de passage au jour suivant...\n");
+
         DateCahier nouvelle = new DateCahier(courante.annee, courante.mois, courante.jour);
-        if(nouvelle.after(maximum)) {
+        if(nouvelle.before(maximum)) {
+            System.out.println("Le jour suivant est avant le maximum...\n");
             try {
-                nouvelle.setDate(nouvelle.jourSuivant());
                 do {
                     nouvelle.setDate(nouvelle.jourSuivant());
                 } while (!this.estDejaDansCahier(nouvelle) && nouvelle.before(maximum));
@@ -109,7 +115,7 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
     {
         for(PageIG page : pages.values())
         {
-            if(page.getDateDuJour().equals(date))
+            if(page.getDateDuJour().equalsDate(date))
             {
                 System.out.println(date.toString() + " cette date est présente dans le cahier");
                 return true;
@@ -133,14 +139,16 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
      */
     public void jourPrecedent()
     {
+        System.out.println("Tentative de passage au jour précédent...\n");
         DateCahier nouvelle = new DateCahier(courante.annee, courante.mois, courante.jour);
-        if(nouvelle.before(minimum)) {
+        if(nouvelle.after(minimum)) {
+            System.out.println("Le jour précédent est après le minimum...\n");
+
             try {
-                System.out.println("Passage au jour précédent : " + nouvelle.toString());
-                nouvelle.setDate(nouvelle.jourPrecedent());
                 do {
                     nouvelle.setDate(nouvelle.jourPrecedent());
                 } while (!this.estDejaDansCahier(nouvelle) && nouvelle.after(minimum));
+                System.out.println("Passage au jour précédent : " + nouvelle.toString());
                 courante = nouvelle;
             } catch (CahierException e) {
                 throw new RuntimeException(e);
@@ -168,15 +176,33 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
      */
     public PageIG getPage(DateCahier dateCahier) throws CahierException
     {
+        System.out.println("Date à récupérer :"+ dateCahier.toString());
         if(!this.estDejaDansCahier(dateCahier))
         {
             throw new CahierException("Problème! Cette page n'existe pas");
         }else
         {
             PageIG page = pages.get(dateCahier);
-            System.out.println("Page renvoyée : "+ page.toString());
+            if(page==null)
+            {
+                System.out.println("Page n'existe pas dans getPage(DateCahier dateCahier)\n");
+            }else {
+                System.out.println("Page renvoyée : " + page.toString());
+            }
             return page;
         }
+    }
+
+    public PageJourIG getPageCourante()
+    {
+        System.out.println(courante.toString());
+        PageJourIG page = (PageJourIG)pages.get(courante);
+        if(page == null)
+        {
+            System.out.println("Page n'existe pas");
+            return null;
+        }else
+            return page;
     }
 
     /**

@@ -84,6 +84,7 @@ public class PanneauDeControle {
     public void ajouterPage(DateCahier date, String titre) throws CahierException {
         cahier.ajouterPage(date,titre);
         cahier.ajouterPage(date.jourPrecedent(),"Jour Ancien");
+        cahier.ajouterPage(new DateCahier("25/01/1980"),"Jour Très Ancien");
     }
 
     public void chargerPageActuelle()

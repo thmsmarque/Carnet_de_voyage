@@ -41,34 +41,34 @@
       </MenuBar>
    </top>
    <bottom>
-      <AnchorPane prefHeight="50.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <AnchorPane maxHeight="99.0" prefHeight="0.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="tournerGauche" layoutY="145.0" mnemonicParsing="false" onAction="#pagePrecedente" prefHeight="50.0" prefWidth="50.0" text="&lt;-" />
-            <Button fx:id="tournerDroite" layoutX="549.0" layoutY="145.0" mnemonicParsing="false" onAction="#pageSuivante" prefHeight="50.0" prefWidth="50.0" text="-&gt;" />
+            <Button fx:id="tournerGauche" layoutY="6.0" mnemonicParsing="false" onAction="#pagePrecedente" prefHeight="50.0" prefWidth="50.0" text="&lt;-" />
+            <Button fx:id="tournerDroite" layoutX="549.0" layoutY="6.0" mnemonicParsing="false" onAction="#pageSuivante" prefHeight="50.0" prefWidth="50.0" text="-&gt;" />
          </children>
       </AnchorPane>
    </bottom>
    <center>
-      <AnchorPane prefHeight="724.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="595.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <Label id="date1" fx:id="date1" layoutX="142.0" layoutY="140.0" text="01/01/2024" textFill="#ee60b5">
+            <Label id="date1" fx:id="date1" layoutX="122.0" layoutY="14.0" text="01/01/2024" textFill="#ee60b5">
                <font>
                   <Font name="Cooper Black" size="54.0" />
                </font>
             </Label>
-            <Label fx:id="date2" layoutX="172.0" layoutY="217.0" text="Jour de la page" textFill="#ee60b5">
+            <Label fx:id="date2" layoutX="152.0" layoutY="91.0" text="Jour de la page" textFill="#ee60b5">
                <font>
                   <Font name="Cooper Black" size="32.0" />
                </font>
             </Label>
-            <Label fx:id="titrePage" layoutX="106.0" layoutY="266.0" text="Titre de la page" textFill="#ee60b5">
+            <Label fx:id="titrePage" layoutX="86.0" layoutY="140.0" text="Titre de la page" textFill="#ee60b5">
                <font>
                   <Font name="Cooper Black" size="55.0" />
                </font>
             </Label>
-            <Pane fx:id="largeNode" layoutX="50.0" layoutY="362.0" prefHeight="200.0" prefWidth="500.0" style="-fx-background-color: #C7DCD5;" />
-            <Pane fx:id="smallNode1" layoutX="75.0" layoutY="586.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #C7DCD5;" />
-            <Pane fx:id="smallNode2" layoutX="320.0" layoutY="586.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #C7DCD5;" />
+            <Pane fx:id="largeNode" layoutX="50.0" layoutY="269.0" onMouseClicked="#selectionnerNode" prefHeight="200.0" prefWidth="500.0" style="-fx-background-color: #C7DCD5;" />
+            <Pane fx:id="smallNode2" layoutX="86.0" layoutY="486.0" onMouseClicked="#selectionnerNode" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #C7DCD5;" />
+            <Pane fx:id="smallNode1" layoutX="315.0" layoutY="486.0" onMouseClicked="#selectionnerNode" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #C7DCD5;" />
          </children>
       </AnchorPane>
    </center>

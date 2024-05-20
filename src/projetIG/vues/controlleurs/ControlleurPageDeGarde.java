@@ -56,7 +56,7 @@ public class ControlleurPageDeGarde implements Observateur{
                 throw new RuntimeException(e);
             }
         }
-
+        p.chargerPageActuelle();
         c.notifierObservateurs();
     }
 

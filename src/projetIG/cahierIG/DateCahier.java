@@ -5,6 +5,7 @@ import exceptions.CahierException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Objects;
 
 public class DateCahier extends Date {
 
@@ -268,12 +269,8 @@ public class DateCahier extends Date {
         return jourSuivant;
     }
 
-    /**
-     * Test si la date passée en param est la même
-     * @param date la date à tester
-     * @return vrai si identiques faux sinon
-     */
-    public boolean equals(DateCahier date)
+
+    public boolean equalsDate(DateCahier date)
     {
         if(this.jour == date.jour && this.mois == date.mois && this.annee == date.annee)
             return true;
@@ -281,6 +278,23 @@ public class DateCahier extends Date {
             return false;
     }
 
+    /**
+     * Test si la date passée en param est la même
+     * @param o la date à tester
+     * @return vrai si identiques faux sinon
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DateCahier that = (DateCahier) o;
+        return jour == that.jour && mois == that.mois && annee == that.annee;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(jour, mois, annee);
+    }
 
 
     public String format2()

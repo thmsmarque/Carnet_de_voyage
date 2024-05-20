@@ -1,6 +1,7 @@
 package cahierIG;
 
 import exceptions.CahierException;
+import javafx.scene.layout.Pane;
 import outils.FabriqueIdentifiant;
 
 import java.util.Date;
@@ -64,6 +65,28 @@ public abstract class PageIG{
         }
     }
 
+    public NodeIG getLargeNode()
+    {
+        return largeNode;
+    }
+
+    public NodeIG getSmallNodeLeft()
+    {
+        return smallNodeLeft;
+    }
+
+    public NodeIG getSmallNodeRight()
+    {
+        return smallNodeRight;
+    }
+
+    public void setNodeSelectionnee(NodeIG node)
+    {
+        nodeSelectionnee = node;
+    }
+
+
+
 
 
     /**
@@ -87,6 +110,11 @@ public abstract class PageIG{
     public NodeIG getNodeSelectionnee()
     {
         return nodeSelectionnee;
+    }
+
+    public void deselectionnerNode()
+    {
+        nodeSelectionnee = null;
     }
 
     /**
