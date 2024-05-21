@@ -296,6 +296,64 @@ public class DateCahier extends Date {
         return Objects.hash(jour, mois, annee);
     }
 
+    /**
+     * Test si la date passée en paramètre est avant la date
+     * @param date date à tester
+     * @return
+     */
+    public boolean avant(DateCahier date)
+    {
+        if(date.annee > annee)
+            return false;
+        else if(date.annee < annee)
+        {
+            return true;
+        }else if(date.mois < mois)
+        {
+            return true;
+        }else if(date.mois > mois)
+        {
+            return false;
+        }else if(date.jour > jour)
+        {
+            return false;
+        }else if(date.jour < jour)
+        {
+            return true;
+        }else
+            return false;
+    }
+
+    /**
+     * Test si la date passée en paramètre est apres la date
+     * @param date date à tester
+     * @return
+     */
+    public boolean apres(DateCahier date)
+    {
+        if(date.annee > annee)
+            return true;
+        else if(date.annee < annee)
+        {
+            return false;
+        }else if(date.mois < mois)
+        {
+            return false;
+        }else if(date.mois > mois)
+        {
+            return true;
+        }else if(date.jour > jour)
+        {
+            return true;
+        }else if(date.jour < jour)
+        {
+            return false;
+        }else
+            return false;
+    }
+
+
+
 
     public String format2()
     {

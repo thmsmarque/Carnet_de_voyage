@@ -22,7 +22,6 @@ public abstract class PageIG{
     {
         new HashMap<String, NodeIG>();
         dateDuJour = new DateCahier("01/01/2000");
-
     }
 
     public PageIG (DateCahier dateDuJour, String titre) {
@@ -54,14 +53,23 @@ public abstract class PageIG{
     }
 
     /**
-     * Change la node séléctionnée
+     * Change la node séléctionnée, -1 = null  1 = largeNode 2 = smallNodeLeft 3 = smallNodeRight
      * @param node nouvelle node
      */
-    public void setNodeIG(NodeIG node)
+    public void setNodeIG(NodeIG nodeIG,int node)
     {
-        if(nodeSelectionnee!=null)
+
+        if(node == 1)
         {
-            nodeSelectionnee = node;
+            largeNode = nodeIG;
+        }
+        if(node == 2)
+        {
+            smallNodeLeft = nodeIG;
+        }
+        if(node == 3)
+        {
+            smallNodeRight = nodeIG;
         }
     }
 
@@ -80,9 +88,29 @@ public abstract class PageIG{
         return smallNodeRight;
     }
 
-    public void setNodeSelectionnee(NodeIG node)
+    /**
+     * Selectionne une node selon le int, -1 = null  1 = largeNode 2 = smallNodeLeft 3 = smallNodeRight
+     * @param node
+     */
+    public void setNodeSelectionnee(int node)
     {
-        nodeSelectionnee = node;
+        if(node == 0)
+        {
+            nodeSelectionnee = null;
+        }
+        if(node == 1)
+        {
+            nodeSelectionnee = largeNode;
+        }
+        if(node == 2)
+        {
+            nodeSelectionnee = smallNodeLeft;
+        }
+        if(node == 3)
+        {
+            nodeSelectionnee = smallNodeRight;
+        }
+        System.out.println("Node selected après setNodeSelec : " + nodeSelectionnee);
     }
 
 

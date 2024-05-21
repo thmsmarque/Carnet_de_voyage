@@ -7,9 +7,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import vues.controlleurs.ControlleurPageDeGarde;
 import vues.controlleurs.ControlleurPageJour;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Date;
 
 public class PanneauDeControle {
@@ -78,13 +80,42 @@ public class PanneauDeControle {
 
     }
 
+    public void retourPageDeGarde()
+    {
+        cahier.setCourante(null);
+        final URL url = getClass().getResource("/fxml/PDG_Carnet.fxml");
+        // Création du loader.
+        final FXMLLoader fxmlLoader = new FXMLLoader(url);
+
+
+        ControlleurPageDeGarde controlleurPageDeGarde = new ControlleurPageDeGarde(cahier, this);
+        ControlleurPageJour controlleurPageJour = new ControlleurPageJour(cahier, this);
+
+
+        fxmlLoader.setControllerFactory(ic-> {
+            if(ic.equals(vues.controlleurs.ControlleurPageDeGarde.class)) return controlleurPageDeGarde;
+            else if(ic.equals(vues.controlleurs.ControlleurPageJour.class)) return controlleurPageJour;
+            else return null;
+        });
+
+        final BorderPane root;
+        try {
+            root = fxmlLoader.load();
+            final Scene scene = new Scene(root, 600, 800);
+            stage.setScene(scene);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        cahier.notifierObservateurs();
+    }
+
     /**
      * Si elle n'existe pas, ajoute une nouvelle date
      */
     public void ajouterPage(DateCahier date, String titre) throws CahierException {
         cahier.ajouterPage(date,titre);
-        cahier.ajouterPage(date.jourPrecedent(),"Jour Ancien");
-        cahier.ajouterPage(new DateCahier("25/01/1980"),"Jour Très Ancien");
+        chargerPageActuelle();
     }
 
     public void chargerPageActuelle()

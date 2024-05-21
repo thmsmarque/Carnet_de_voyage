@@ -52,16 +52,17 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
         {
             maximum = new DateCahier(dateCahier.annee, dateCahier.mois, dateCahier.jour);
         }
-        if(dateCahier.before(minimum))
+        if(minimum.avant(dateCahier))
         {
             minimum = new DateCahier(dateCahier.annee, dateCahier.mois, dateCahier.jour);
         }
-        if(dateCahier.after(maximum))
+        if(maximum.apres(dateCahier))
         {
             maximum = new DateCahier(dateCahier.annee, dateCahier.mois, dateCahier.jour);
         }
 
         System.out.println("Une nouvelle page a été ajoutée! => " + page.toString());
+        System.out.println("Minimum : "+minimum.toString() + " -- Maximum : " + maximum.toString());
     }
 
     /**
@@ -71,6 +72,60 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
     public DateCahier getCourante()
     {
         return courante;
+    }
+
+    /**
+     * Supprimer une page du cahier à partir d'une date
+     * @param dateCahier la date à supprimer
+     */
+    public void supprimerPage(DateCahier dateCahier)
+    {
+        if(this.estDejaDansCahier(dateCahier))
+        {
+            pages.remove(dateCahier);
+        }
+        courante = null;
+        if(dateCahier.equals(minimum))
+        {
+            if(!pages.isEmpty())
+            {
+                minimum = nouvelleMinimum();
+            }
+        }
+        if(dateCahier.equals(maximum))
+        {
+            if(!pages.isEmpty())
+            {
+                maximum = nouvelleMaximum();
+            }
+        }
+    }
+
+    public DateCahier nouvelleMinimum()
+    {
+        DateCahier dateCahier = maximum;
+
+        for(DateCahier date : pages.keySet())
+        {
+            if(date.avant(dateCahier))
+            {
+                dateCahier = date;
+            }
+        }
+        return dateCahier;
+    }
+
+    public DateCahier nouvelleMaximum()
+    {
+        DateCahier dateCahier = minimum;
+        for(DateCahier date : pages.keySet())
+        {
+            if(date.apres(dateCahier))
+            {
+                dateCahier = date;
+            }
+        }
+        return dateCahier;
     }
 
 
@@ -92,12 +147,12 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
 
         DateCahier nouvelle = new DateCahier(courante.annee, courante.mois, courante.jour);
         if(nouvelle.before(maximum)) {
-            System.out.println("Le jour suivant est avant le maximum...\n");
+            //System.out.println("Le jour suivant est avant le maximum...\n");
             try {
                 do {
                     nouvelle.setDate(nouvelle.jourSuivant());
                 } while (!this.estDejaDansCahier(nouvelle) && nouvelle.before(maximum));
-                System.out.println("Passage au jour suivant : " + nouvelle.toString());
+                //System.out.println("Passage au jour suivant : " + nouvelle.toString());
                 courante = nouvelle;
             } catch (CahierException e) {
                 throw new RuntimeException(e);
@@ -117,11 +172,11 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
         {
             if(page.getDateDuJour().equalsDate(date))
             {
-                System.out.println(date.toString() + " cette date est présente dans le cahier");
+                //System.out.println(date.toString() + " cette date est présente dans le cahier");
                 return true;
             }
         }
-        System.out.println(date.toString() + " cette date n'est pas présente dans le cahier");
+        //System.out.println(date.toString() + " cette date n'est pas présente dans le cahier");
         return false;
     }
 
@@ -139,16 +194,16 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
      */
     public void jourPrecedent()
     {
-        System.out.println("Tentative de passage au jour précédent...\n");
+        //System.out.println("Tentative de passage au jour précédent...\n");
         DateCahier nouvelle = new DateCahier(courante.annee, courante.mois, courante.jour);
         if(nouvelle.after(minimum)) {
-            System.out.println("Le jour précédent est après le minimum...\n");
+            //System.out.println("Le jour précédent est après le minimum...\n");
 
             try {
                 do {
                     nouvelle.setDate(nouvelle.jourPrecedent());
                 } while (!this.estDejaDansCahier(nouvelle) && nouvelle.after(minimum));
-                System.out.println("Passage au jour précédent : " + nouvelle.toString());
+                //System.out.println("Passage au jour précédent : " + nouvelle.toString());
                 courante = nouvelle;
             } catch (CahierException e) {
                 throw new RuntimeException(e);
@@ -163,7 +218,7 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
     public void changerPage(DateCahier dateCahier) throws CahierException
     {
         if(this.estDejaDansCahier(dateCahier)) {
-            System.out.println("Nouvelle page courante : " + getPage(dateCahier));
+            //System.out.println("Nouvelle page courante : " + getPage(dateCahier));
             courante = dateCahier;
         }else
             throw new CahierException("Ce jour n'existe pas");
@@ -187,7 +242,7 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
             {
                 System.out.println("Page n'existe pas dans getPage(DateCahier dateCahier)\n");
             }else {
-                System.out.println("Page renvoyée : " + page.toString());
+                //System.out.println("Page renvoyée : " + page.toString());
             }
             return page;
         }
@@ -195,11 +250,11 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
 
     public PageJourIG getPageCourante()
     {
-        System.out.println(courante.toString());
+        //System.out.println(courante.toString());
         PageJourIG page = (PageJourIG)pages.get(courante);
         if(page == null)
         {
-            System.out.println("Page n'existe pas");
+            //System.out.println("Page n'existe pas");
             return null;
         }else
             return page;

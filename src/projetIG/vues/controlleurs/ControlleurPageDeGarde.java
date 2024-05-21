@@ -45,11 +45,11 @@ public class ControlleurPageDeGarde implements Observateur{
 
         if(c.estDejaDansCahier(date))
         {
-            System.out.println("Est déjà dans le cahier");
+            //System.out.println("Est déjà dans le cahier");
             p.choisirPage(date);
         }else
         {
-            System.out.println("N'était pas encore dans le cahier");
+            //System.out.println("N'était pas encore dans le cahier");
             try {
                 p.ajouterPage(date,"Nouvelle Page");
             } catch (CahierException e) {
@@ -67,6 +67,6 @@ public class ControlleurPageDeGarde implements Observateur{
 
     @Override
     public void reagir() {
-        plageDate.setText(c.getMinimum().toString() + "-" + c.getMaximum().toString());
+        plageDate.setText(c.getMinimum().toString() + " - " + c.getMaximum().toString());
     }
 }
