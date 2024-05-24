@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
@@ -14,7 +15,7 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <ListView id="ListeParticipants" layoutX="76.0" layoutY="411.0" prefHeight="304.0" prefWidth="163.0" style="-fx-background-color: #336655;" />
+            <ListView id="ListeParticipants" fx:id="listeParticipants" layoutX="76.0" layoutY="411.0" prefHeight="304.0" prefWidth="163.0" style="-fx-background-color: #336655;" />
             <Button id="PageDuJourButton" fx:id="pdjButton" alignment="CENTER" contentDisplay="CENTER" layoutX="320.0" layoutY="434.0" mnemonicParsing="false" onAction="#afficherPageDuJour" prefHeight="101.0" prefWidth="225.0" style="-fx-background-color: #5BB899;" text="Page du jour" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font name="Cooper Black" size="29.0" />
@@ -46,19 +47,17 @@
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu mnemonicParsing="false" text="Fichier">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+              <MenuItem mnemonicParsing="false" onAction="#fermerCarnet" text="Fermer" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="sauvegarderButton" mnemonicParsing="false" onAction="#sauvegargerCarnet" text="Sauvegarder Carnet" />
+                  <MenuItem fx:id="chargerButton" mnemonicParsing="false" onAction="#chargerCarnet" text="Charger Carnet" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
+          <Menu mnemonicParsing="false" text="Edition">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem fx:id="ajouterParticipantButton" mnemonicParsing="false" onAction="#ajouterParticipant" text="Ajouter Participant" />
             </items>
           </Menu>
         </menus>

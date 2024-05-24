@@ -3,6 +3,7 @@ package cahierIG;
 import exceptions.CahierException;
 
 
+import javax.lang.model.type.ArrayType;
 import java.util.*;
 
 public class Cahier extends SujetObserve implements Iterable<PageIG>{
@@ -310,6 +311,11 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
         }
 
         return res;
+    }
+
+    public ArrayList<String> getParticipants()
+    {
+        return participants;
     }
 
 

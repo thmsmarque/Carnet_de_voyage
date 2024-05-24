@@ -40,17 +40,17 @@ public class NodeTexteIG extends NodeIG{
 
 
     @Override
-    Boolean estTexte() {
+    public Boolean estTexte() {
         return true;
     }
 
     @Override
-    Boolean estImage() {
+    public Boolean estImage() {
         return false;
     }
 
     @Override
-    Boolean estGPS() {
+    public Boolean estGPS() {
         return false;
     }
 }

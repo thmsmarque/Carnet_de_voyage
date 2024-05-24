@@ -11,8 +11,8 @@ public abstract class NodeIG extends Pane {
 
     }
 
-    abstract Boolean estTexte();
-    abstract Boolean estImage();
-    abstract Boolean estGPS();
+    public abstract Boolean estTexte();
+    public abstract Boolean estImage();
+    public abstract Boolean estGPS();
 
 }

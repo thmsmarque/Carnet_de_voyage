@@ -8,17 +8,17 @@ public class NodeGPSIG extends NodeIG{
     }
 
     @Override
-    Boolean estTexte() {
+     public Boolean estTexte() {
         return false;
     }
 
     @Override
-    Boolean estImage() {
+    public Boolean estImage() {
         return false;
     }
 
     @Override
-    Boolean estGPS() {
+    public Boolean estGPS() {
         return true;
     }
 }

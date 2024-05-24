@@ -30,9 +30,10 @@ public class MainCahier extends Application {
             final FXMLLoader fxmlLoader = new FXMLLoader(url);
 
 
-        ControlleurPageDeGarde controlleurPageDeGarde = new ControlleurPageDeGarde(cahier, panneauDeControle);
+        ControlleurPageDeGarde controlleurPageDeGarde = new ControlleurPageDeGarde();
         ControlleurPageJour controlleurPageJour = new ControlleurPageJour(cahier, panneauDeControle);
 
+        controlleurPageDeGarde.initData(cahier, panneauDeControle);
 
         fxmlLoader.setControllerFactory(ic-> {
             if(ic.equals(vues.controlleurs.ControlleurPageDeGarde.class)) return controlleurPageDeGarde;

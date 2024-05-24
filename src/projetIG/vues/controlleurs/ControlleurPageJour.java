@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import vues.Observateur;
 import vues.PanneauDeControle;
 
@@ -40,6 +41,9 @@ public class ControlleurPageJour implements Observateur {
 
     @FXML
     private Button tournerGauche;
+
+    @FXML
+    private Text textSmallNode1;
 
     Pane nodeSelected;
     Cahier cahier;
@@ -224,7 +228,11 @@ public class ControlleurPageJour implements Observateur {
 
             if(page.getSmallNodeLeft() != null)
             {
-                smallNode1 = page.getSmallNodeLeft();
+                if(page.getSmallNodeLeft().estTexte())
+                {
+                    NodeTexteIG node = (NodeTexteIG)page.getSmallNodeLeft();
+                    textSmallNode1.setText(node.getTexte());
+                }
             }else
             {
                 smallNode1.setStyle("-fx-background-color: #C7DCD5");
@@ -242,6 +250,8 @@ public class ControlleurPageJour implements Observateur {
             if (nodeSelected != null) {
                 nodeSelected.setStyle("-fx-background-color: #a5c589");
             }
+
+
 
         }
     }
