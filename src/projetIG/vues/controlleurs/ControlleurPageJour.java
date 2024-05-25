@@ -231,7 +231,23 @@ public class ControlleurPageJour implements Observateur {
                 if(page.getSmallNodeLeft().estTexte())
                 {
                     NodeTexteIG node = (NodeTexteIG)page.getSmallNodeLeft();
-                    textSmallNode1.setText(node.getTexte());
+                    final URL url = getClass().getResource("/fxml/smallPaneText.fxml");
+                    // Création du loader.
+                    final FXMLLoader fxmlLoader = new FXMLLoader(url);
+
+                    ControlleurSmallNodeText = new ControlleurSmallNodeText(node);
+
+                    fxmlLoader.setControllerFactory(ic-> {
+                        if(ic.equals(vues.controlleurs.ControlleurSmallNodeText.class)) return controlleurSmallNodeText;
+                        
+                        else return null;
+                    });
+
+                    page.getSmallNodeLeft.getChildren.add((Pane) fxmlLoader.load());
+
+                }else if(page.getSmallNodeLeft().estImage())
+                {
+                    NodeImageIG node = (NodeImage)page.getSmallNodeLeft();
                 }
             }else
             {

@@ -5,12 +5,11 @@ import javafx.scene.control.Label;
 public class NodeTexteIG extends NodeIG{
 
     String texte;
-    Label texteIG;
+
 
     public NodeTexteIG()
     {
         super();
-        texteIG = new Label();
     }
 
     public NodeTexteIG(String texte)
