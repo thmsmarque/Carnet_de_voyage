@@ -16,8 +16,6 @@ public class NodeTexteIG extends NodeIG{
     {
         super();
         this.texte = texte;
-        texteIG = new Label(texte);
-        this.getChildren().add(texteIG);
     }
 
     /**
@@ -34,7 +32,6 @@ public class NodeTexteIG extends NodeIG{
      */
     public void setTexte(String texte) {
         this.texte = texte;
-        texteIG.setText(texte);
     }
 
 

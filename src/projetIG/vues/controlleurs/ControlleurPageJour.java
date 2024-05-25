@@ -5,15 +5,20 @@ import exceptions.CahierException;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import vues.controlleurs.ControlleurSmallNodeImage;
+import vues.controlleurs.ControlleurSmallNodeText;
 import vues.Observateur;
 import vues.PanneauDeControle;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.Optional;
 
 public class ControlleurPageJour implements Observateur {
@@ -208,6 +213,9 @@ public class ControlleurPageJour implements Observateur {
     public void reagir() {
         PageJourIG page = null;
 
+
+
+
         if(cahier.getCourante() != null) {
             page = cahier.getPageCourante();
             System.out.println(page.toString());
@@ -215,7 +223,9 @@ public class ControlleurPageJour implements Observateur {
             date2.setText(page.getDate().format2());
             titrePage.setText(page.getTitre());
 
-
+            smallNode1.getChildren().clear();
+            smallNode2.getChildren().clear();
+            largeNode.getChildren().clear();
 
 
             if(page.getLargeNode() != null)
@@ -230,12 +240,13 @@ public class ControlleurPageJour implements Observateur {
             {
                 if(page.getSmallNodeLeft().estTexte())
                 {
+
                     NodeTexteIG node = (NodeTexteIG)page.getSmallNodeLeft();
                     final URL url = getClass().getResource("/fxml/smallPaneText.fxml");
                     // Création du loader.
                     final FXMLLoader fxmlLoader = new FXMLLoader(url);
 
-                    ControlleurSmallNodeText = new ControlleurSmallNodeText(node);
+                    ControlleurSmallNodeText controlleurSmallNodeText = new ControlleurSmallNodeText(node);
 
                     fxmlLoader.setControllerFactory(ic-> {
                         if(ic.equals(vues.controlleurs.ControlleurSmallNodeText.class)) return controlleurSmallNodeText;
@@ -243,16 +254,20 @@ public class ControlleurPageJour implements Observateur {
                         else return null;
                     });
 
-                    page.getSmallNodeLeft.getChildren.add((Pane) fxmlLoader.load());
+                    try {
+                        smallNode1.getChildren().add((Pane)fxmlLoader.load());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
 
                 }else if(page.getSmallNodeLeft().estImage())
                 {
-                    NodeImageIG node = (NodeImage)page.getSmallNodeLeft();
+                    NodeImageIG node = (NodeImageIG)page.getSmallNodeLeft();
                     final URL url = getClass().getResource("/fxml/smallPaneImage.fxml");
                     // Création du loader.
                     final FXMLLoader fxmlLoader = new FXMLLoader(url);
 
-                    ControlleurSmallNodeImage = new ControlleurSmallNodeImage(node);
+                    ControlleurSmallNodeImage controlleurSmallNodeImage= new ControlleurSmallNodeImage(node);
 
                     fxmlLoader.setControllerFactory(ic-> {
                         if(ic.equals(vues.controlleurs.ControlleurSmallNodeImage.class)) return controlleurSmallNodeImage;
@@ -260,7 +275,11 @@ public class ControlleurPageJour implements Observateur {
                         else return null;
                     });
 
-                    page.getSmallNodeLeft.getChildren.add((Pane) fxmlLoader.load());
+                    try {
+                        smallNode1.getChildren().add((Pane) fxmlLoader.load());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }else
             {
@@ -276,7 +295,7 @@ public class ControlleurPageJour implements Observateur {
                     // Création du loader.
                     final FXMLLoader fxmlLoader = new FXMLLoader(url);
 
-                    ControlleurSmallNodeText = new ControlleurSmallNodeText(node);
+                    ControlleurSmallNodeText controlleurSmallNodeText= new ControlleurSmallNodeText(node);
 
                     fxmlLoader.setControllerFactory(ic-> {
                         if(ic.equals(vues.controlleurs.ControlleurSmallNodeText.class)) return controlleurSmallNodeText;
@@ -284,16 +303,20 @@ public class ControlleurPageJour implements Observateur {
                         else return null;
                     });
 
-                    page.getSmallNodeLeft.getChildren.add((Pane) fxmlLoader.load());
+                    try {
+                        smallNode2.getChildren().add((Pane) fxmlLoader.load());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
 
                 }else if(page.getSmallNodeRight().estImage())
                 {
-                    NodeImageIG node = (NodeImage)page.getSmallNodeRight();
+                    NodeImageIG node = (NodeImageIG)page.getSmallNodeRight();
                     final URL url = getClass().getResource("/fxml/smallPaneImage.fxml");
                     // Création du loader.
                     final FXMLLoader fxmlLoader = new FXMLLoader(url);
 
-                    ControlleurSmallNodeImage = new ControlleurSmallNodeImage(node);
+                    ControlleurSmallNodeImage controlleurSmallNodeImage = new ControlleurSmallNodeImage(node);
 
                     fxmlLoader.setControllerFactory(ic-> {
                         if(ic.equals(vues.controlleurs.ControlleurSmallNodeImage.class)) return controlleurSmallNodeImage;
@@ -301,7 +324,11 @@ public class ControlleurPageJour implements Observateur {
                         else return null;
                     });
 
-                    page.getSmallNodeLeft.getChildren.add((Pane) fxmlLoader.load());
+                    try {
+                        smallNode2.getChildren().add((Pane) fxmlLoader.load());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }else
             {

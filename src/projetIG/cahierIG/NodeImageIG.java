@@ -1,5 +1,7 @@
 package cahierIG;
 
+import javafx.scene.image.Image;
+
 public class NodeImageIG extends NodeIG{
 
     Image image;

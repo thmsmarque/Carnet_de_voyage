@@ -1,10 +1,13 @@
-package vues;
+package vues.controlleurs;
 
 import cahierIG.Cahier;
 import cahierIG.DateCahier;
+import cahierIG.NodeImageIG;
 import exceptions.CahierException;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import vues.controlleurs.ControlleurPageDeGarde;
@@ -21,7 +24,7 @@ public class ControlleurSmallNodeImage {
 
     NodeImageIG node;
 
-    public ControlleurSmallNodeText(NodeImageIG node)
+    public ControlleurSmallNodeImage(NodeImageIG node)
      {
         this.node = node;
      }
