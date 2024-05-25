@@ -248,6 +248,19 @@ public class ControlleurPageJour implements Observateur {
                 }else if(page.getSmallNodeLeft().estImage())
                 {
                     NodeImageIG node = (NodeImage)page.getSmallNodeLeft();
+                    final URL url = getClass().getResource("/fxml/smallPaneImage.fxml");
+                    // Création du loader.
+                    final FXMLLoader fxmlLoader = new FXMLLoader(url);
+
+                    ControlleurSmallNodeImage = new ControlleurSmallNodeImage(node);
+
+                    fxmlLoader.setControllerFactory(ic-> {
+                        if(ic.equals(vues.controlleurs.ControlleurSmallNodeImage.class)) return controlleurSmallNodeImage;
+                        
+                        else return null;
+                    });
+
+                    page.getSmallNodeLeft.getChildren.add((Pane) fxmlLoader.load());
                 }
             }else
             {
@@ -256,7 +269,40 @@ public class ControlleurPageJour implements Observateur {
 
             if(page.getSmallNodeRight() != null)
             {
-                smallNode2 = page.getSmallNodeRight();
+                if(page.getSmallNodeRight().estTexte())
+                {
+                    NodeTexteIG node = (NodeTexteIG)page.getSmallNodeRight();
+                    final URL url = getClass().getResource("/fxml/smallPaneText.fxml");
+                    // Création du loader.
+                    final FXMLLoader fxmlLoader = new FXMLLoader(url);
+
+                    ControlleurSmallNodeText = new ControlleurSmallNodeText(node);
+
+                    fxmlLoader.setControllerFactory(ic-> {
+                        if(ic.equals(vues.controlleurs.ControlleurSmallNodeText.class)) return controlleurSmallNodeText;
+                        
+                        else return null;
+                    });
+
+                    page.getSmallNodeLeft.getChildren.add((Pane) fxmlLoader.load());
+
+                }else if(page.getSmallNodeRight().estImage())
+                {
+                    NodeImageIG node = (NodeImage)page.getSmallNodeRight();
+                    final URL url = getClass().getResource("/fxml/smallPaneImage.fxml");
+                    // Création du loader.
+                    final FXMLLoader fxmlLoader = new FXMLLoader(url);
+
+                    ControlleurSmallNodeImage = new ControlleurSmallNodeImage(node);
+
+                    fxmlLoader.setControllerFactory(ic-> {
+                        if(ic.equals(vues.controlleurs.ControlleurSmallNodeImage.class)) return controlleurSmallNodeImage;
+                        
+                        else return null;
+                    });
+
+                    page.getSmallNodeLeft.getChildren.add((Pane) fxmlLoader.load());
+                }
             }else
             {
                 smallNode2.setStyle("-fx-background-color: #C7DCD5");
