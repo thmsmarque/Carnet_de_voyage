@@ -6,14 +6,12 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="600.0" style="-fx-background-color: #519335;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vues.controlleurs.ControlleurPageJour">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="600.0" style="-fx-background-color: #519335;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vues.controlleurs.ControlleurPageJour">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -64,17 +62,10 @@
                   <Font name="Cooper Black" size="55.0" />
                </font>
             </Label>
-            <Pane fx:id="largeNode" layoutX="85.0" layoutY="269.0" onMouseClicked="#selectionnerNode" prefHeight="187.0" prefWidth="430.0" style="-fx-background-color: #C7DCD5;" />
-            <Pane fx:id="smallNode2" layoutX="86.0" layoutY="486.0" onMouseClicked="#selectionnerNode" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #C7DCD5;">
-               <children>
-                  <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-                  <Text fx:id="textSmallNode1" fill="#929292" layoutX="4.0" layoutY="22.0" strokeType="INSIDE" strokeWidth="0.0" wrappingWidth="192.99382781982422">
-                     <font>
-                        <Font name="Cooper Black" size="23.0" />
-                     </font>
-                  </Text>
-               </children></Pane>
+            <Pane fx:id="smallNode2" layoutX="86.0" layoutY="486.0" onMouseClicked="#selectionnerNode" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #C7DCD5;" />
             <Pane fx:id="smallNode1" layoutX="315.0" layoutY="486.0" onMouseClicked="#selectionnerNode" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #C7DCD5;" />
+            <Pane fx:id="smallNode4" layoutX="86.0" layoutY="260.0" onMouseClicked="#selectionnerNode" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #C7DCD5;" />
+            <Pane fx:id="smallNode3" layoutX="315.0" layoutY="260.0" onMouseClicked="#selectionnerNode" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #C7DCD5;" />
          </children>
       </AnchorPane>
    </center>

@@ -14,9 +14,10 @@ public abstract class PageIG{
     String identifiant;
     NodeIG nodeSelectionnee;
 
-    NodeIG largeNode;
-    NodeIG smallNodeLeft;
-    NodeIG smallNodeRight;
+    NodeIG smallNodeLeftBottom;
+    NodeIG smallNodeRightBottom;
+    NodeIG smallNodeRightTop;
+    NodeIG smallNodeLeftTop;
 
     public PageIG()
     {
@@ -53,43 +54,53 @@ public abstract class PageIG{
     }
 
     /**
-     * Change la node séléctionnée, -1 = null  1 = largeNode 2 = smallNodeLeft 3 = smallNodeRight
+     * Change la node séléctionnée, -1 = null  1 = largeNode 2 = smallNodeLeftBottom 3 = smallNodeRightBottom 4 = smallNodeLeftTop 5 = smallNodeRightTop
      * @param node nouvelle node
      */
     public void setNodeIG(NodeIG nodeIG,int node)
     {
 
-        if(node == 1)
-        {
-            largeNode = nodeIG;
-        }
         if(node == 2)
         {
-            smallNodeLeft = nodeIG;
+            smallNodeLeftBottom = nodeIG;
         }
         if(node == 3)
         {
-            smallNodeRight = nodeIG;
+            smallNodeRightBottom = nodeIG;
+        }
+        if(node == 4)
+        {
+            smallNodeLeftTop = nodeIG;
+        }
+        if(node == 5)
+        {
+            smallNodeRightTop = nodeIG;
         }
     }
 
-    public NodeIG getLargeNode()
+
+    public NodeIG getSmallNodeLeftBottom()
     {
-        return largeNode;
+        return smallNodeLeftBottom;
     }
 
-    public NodeIG getSmallNodeLeft()
+    public NodeIG getSmallNodeRightBottom()
     {
-        return smallNodeLeft;
+        return smallNodeRightBottom;
     }
 
-    public NodeIG getSmallNodeRight()
+    public NodeIG getSmallNodeRightTop()
     {
-        return smallNodeRight;
+        return smallNodeRightTop;
+    }
+
+    public NodeIG getSmallNodeLeftTop()
+    {
+        return smallNodeLeftTop;
     }
 
     /**
-     * Selectionne une node selon le int, -1 = null  1 = largeNode 2 = smallNodeLeft 3 = smallNodeRight
+     * Selectionne une node selon le int, -1 = null  2 = smallNodeLeftBottom 3 = smallNodeRightBottom 4 = smallNodeLeftTop 5 = smallNodeRightTop
      * @param node
      */
     public void setNodeSelectionnee(int node)
@@ -98,17 +109,21 @@ public abstract class PageIG{
         {
             nodeSelectionnee = null;
         }
-        if(node == 1)
-        {
-            nodeSelectionnee = largeNode;
-        }
         if(node == 2)
         {
-            nodeSelectionnee = smallNodeLeft;
+            nodeSelectionnee = smallNodeLeftBottom;
         }
         if(node == 3)
         {
-            nodeSelectionnee = smallNodeRight;
+            nodeSelectionnee = smallNodeRightBottom;
+        }
+        if(node == 4)
+        {
+            nodeSelectionnee = smallNodeLeftTop;
+        }
+        if(node == 5)
+        {
+            nodeSelectionnee = smallNodeRightTop;
         }
         System.out.println("Node selected après setNodeSelec : " + nodeSelectionnee);
     }
@@ -127,12 +142,27 @@ public abstract class PageIG{
     }
 
     /**
-     * Supprime une node
-     * @param id node à supprimer
+     * Supprime une node selon le int 2 = smallNodeLeftBottom 3 = smallNodeRightBottom 4 = smallNodeLeftTop 5 = smallNodeRightTop
+     * @param node node à supprimer
      */
-    public void supprimerNodeIG(String id)
+    public void supprimerNodeIG(int node)
     {
-
+        if(node == 2)
+        {
+            smallNodeLeftBottom = null;
+        }
+        if(node == 3)
+        {
+            smallNodeRightBottom = null;
+        }
+        if(node == 4)
+        {
+            smallNodeLeftTop = null;
+        }
+        if(node == 5)
+        {
+            smallNodeRightTop = null;
+        }
     }
 
     public NodeIG getNodeSelectionnee()

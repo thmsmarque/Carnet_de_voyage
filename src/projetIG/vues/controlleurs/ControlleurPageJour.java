@@ -29,14 +29,31 @@ public class ControlleurPageJour implements Observateur {
     @FXML
     private Label date2;
 
-    @FXML
-    private Pane largeNode;
+    
 
     @FXML
+    /**
+     * La node en bas à droite
+     */
     private Pane smallNode1;
 
     @FXML
+    /**
+     * La node en bas à gauche
+     */
     private Pane smallNode2;
+
+    @FXML
+    /**
+     * La node en haut à droite
+     */
+    private Pane smallNode3;
+
+    @FXML
+    /**
+     * La node en haut à gauche
+     */
+    private Pane smallNode4;
 
     @FXML
     private Label titrePage;
@@ -48,7 +65,6 @@ public class ControlleurPageJour implements Observateur {
     private Button tournerGauche;
 
     @FXML
-    private Text textSmallNode1;
 
     Pane nodeSelected;
     Cahier cahier;
@@ -75,9 +91,10 @@ public class ControlleurPageJour implements Observateur {
             date2.setText(page.getDate().format2());
             titrePage.setText(page.getTitre());
 
-            this.largeNode.getChildren().clear();
             this.smallNode1.getChildren().clear();
             this.smallNode2.getChildren().clear();
+            this.smallNode3.getChildren().clear();
+            this.smallNode4.getChildren().clear();
 
 
 
@@ -160,16 +177,21 @@ public class ControlleurPageJour implements Observateur {
         {
             return -1;
         }
-        if(nodeSelected == largeNode)
-        {
-            return 1;
-        }else if(nodeSelected == smallNode1)
+        else if(nodeSelected == smallNode1)
         {
             return 2;
         }
         else if(nodeSelected == smallNode2)
         {
             return 3;
+        }
+        else if(nodeSelected == smallNode3)
+        {
+            return 5;
+        }
+        else if(nodeSelected == smallNode4)
+        {
+            return 4;
         }
         return -1;
 
@@ -225,23 +247,18 @@ public class ControlleurPageJour implements Observateur {
 
             smallNode1.getChildren().clear();
             smallNode2.getChildren().clear();
-            largeNode.getChildren().clear();
+            smallNode3.getChildren().clear();
+            smallNode4.getChildren().clear();
 
 
-            if(page.getLargeNode() != null)
+            
+
+            if(page.getSmallNodeLeftBottom() != null)
             {
-                System.out.println("Il y'a une Node ici" + page.getLargeNode());
-                largeNode = page.getLargeNode();
-            }else{
-                largeNode.setStyle("-fx-background-color: #C7DCD5");
-            }
-
-            if(page.getSmallNodeLeft() != null)
-            {
-                if(page.getSmallNodeLeft().estTexte())
+                if(page.getSmallNodeLeftBottom().estTexte())
                 {
 
-                    NodeTexteIG node = (NodeTexteIG)page.getSmallNodeLeft();
+                    NodeTexteIG node = (NodeTexteIG)page.getSmallNodeLeftBottom();
                     final URL url = getClass().getResource("/fxml/smallPaneText.fxml");
                     // Création du loader.
                     final FXMLLoader fxmlLoader = new FXMLLoader(url);
@@ -260,9 +277,9 @@ public class ControlleurPageJour implements Observateur {
                         throw new RuntimeException(e);
                     }
 
-                }else if(page.getSmallNodeLeft().estImage())
+                }else if(page.getSmallNodeLeftBottom().estImage())
                 {
-                    NodeImageIG node = (NodeImageIG)page.getSmallNodeLeft();
+                    NodeImageIG node = (NodeImageIG)page.getSmallNodeLeftBottom();
                     final URL url = getClass().getResource("/fxml/smallPaneImage.fxml");
                     // Création du loader.
                     final FXMLLoader fxmlLoader = new FXMLLoader(url);
@@ -286,11 +303,11 @@ public class ControlleurPageJour implements Observateur {
                 smallNode1.setStyle("-fx-background-color: #C7DCD5");
             }
 
-            if(page.getSmallNodeRight() != null)
+            if(page.getSmallNodeRightBottom() != null)
             {
-                if(page.getSmallNodeRight().estTexte())
+                if(page.getSmallNodeRightBottom().estTexte())
                 {
-                    NodeTexteIG node = (NodeTexteIG)page.getSmallNodeRight();
+                    NodeTexteIG node = (NodeTexteIG)page.getSmallNodeRightBottom();
                     final URL url = getClass().getResource("/fxml/smallPaneText.fxml");
                     // Création du loader.
                     final FXMLLoader fxmlLoader = new FXMLLoader(url);
@@ -309,9 +326,9 @@ public class ControlleurPageJour implements Observateur {
                         throw new RuntimeException(e);
                     }
 
-                }else if(page.getSmallNodeRight().estImage())
+                }else if(page.getSmallNodeRightBottom().estImage())
                 {
-                    NodeImageIG node = (NodeImageIG)page.getSmallNodeRight();
+                    NodeImageIG node = (NodeImageIG)page.getSmallNodeRightBottom();
                     final URL url = getClass().getResource("/fxml/smallPaneImage.fxml");
                     // Création du loader.
                     final FXMLLoader fxmlLoader = new FXMLLoader(url);
@@ -333,6 +350,104 @@ public class ControlleurPageJour implements Observateur {
             }else
             {
                 smallNode2.setStyle("-fx-background-color: #C7DCD5");
+            }
+
+            if(page.getSmallNodeRightTop() != null)
+            {
+                if(page.getSmallNodeRightTop().estTexte())
+                {
+                    NodeTexteIG node = (NodeTexteIG)page.getSmallNodeRightTop();
+                    final URL url = getClass().getResource("/fxml/smallPaneText.fxml");
+                    // Création du loader.
+                    final FXMLLoader fxmlLoader = new FXMLLoader(url);
+
+                    ControlleurSmallNodeText controlleurSmallNodeText= new ControlleurSmallNodeText(node);
+
+                    fxmlLoader.setControllerFactory(ic-> {
+                        if(ic.equals(vues.controlleurs.ControlleurSmallNodeText.class)) return controlleurSmallNodeText;
+
+                        else return null;
+                    });
+
+                    try {
+                        smallNode3.getChildren().add((Pane) fxmlLoader.load());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }else if(page.getSmallNodeRightTop().estImage())
+                {
+                    NodeImageIG node = (NodeImageIG)page.getSmallNodeRightTop();
+                    final URL url = getClass().getResource("/fxml/smallPaneImage.fxml");
+                    // Création du loader.
+                    final FXMLLoader fxmlLoader = new FXMLLoader(url);
+
+                    ControlleurSmallNodeImage controlleurSmallNodeImage = new ControlleurSmallNodeImage(node);
+
+                    fxmlLoader.setControllerFactory(ic-> {
+                        if(ic.equals(vues.controlleurs.ControlleurSmallNodeImage.class)) return controlleurSmallNodeImage;
+
+                        else return null;
+                    });
+
+                    try {
+                        smallNode3.getChildren().add((Pane) fxmlLoader.load());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }else
+            {
+                smallNode3.setStyle("-fx-background-color: #C7DCD5");
+            }
+
+            if(page.getSmallNodeLeftTop() != null)
+            {
+                if(page.getSmallNodeLeftTop().estTexte())
+                {
+                    NodeTexteIG node = (NodeTexteIG)page.getSmallNodeLeftTop();
+                    final URL url = getClass().getResource("/fxml/smallPaneText.fxml");
+                    // Création du loader.
+                    final FXMLLoader fxmlLoader = new FXMLLoader(url);
+
+                    ControlleurSmallNodeText controlleurSmallNodeText= new ControlleurSmallNodeText(node);
+
+                    fxmlLoader.setControllerFactory(ic-> {
+                        if(ic.equals(vues.controlleurs.ControlleurSmallNodeText.class)) return controlleurSmallNodeText;
+
+                        else return null;
+                    });
+
+                    try {
+                        smallNode4.getChildren().add((Pane) fxmlLoader.load());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }else if(page.getSmallNodeLeftTop().estImage())
+                {
+                    NodeImageIG node = (NodeImageIG)page.getSmallNodeLeftTop();
+                    final URL url = getClass().getResource("/fxml/smallPaneImage.fxml");
+                    // Création du loader.
+                    final FXMLLoader fxmlLoader = new FXMLLoader(url);
+
+                    ControlleurSmallNodeImage controlleurSmallNodeImage = new ControlleurSmallNodeImage(node);
+
+                    fxmlLoader.setControllerFactory(ic-> {
+                        if(ic.equals(vues.controlleurs.ControlleurSmallNodeImage.class)) return controlleurSmallNodeImage;
+
+                        else return null;
+                    });
+
+                    try {
+                        smallNode4.getChildren().add((Pane) fxmlLoader.load());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }else
+            {
+                smallNode4.setStyle("-fx-background-color: #C7DCD5");
             }
 
 
