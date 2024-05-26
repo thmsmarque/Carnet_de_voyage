@@ -6,8 +6,9 @@ public class NodeImageIG extends NodeIG{
 
     Image image;
 
-    public NodeImageIG(){
+    public NodeImageIG(Image image){
         super();
+        this.image = image;
     }
 
     public Image getImage()

@@ -31,7 +31,7 @@ public class MainCahier extends Application {
 
 
         ControlleurPageDeGarde controlleurPageDeGarde = new ControlleurPageDeGarde();
-        ControlleurPageJour controlleurPageJour = new ControlleurPageJour(cahier, panneauDeControle);
+        ControlleurPageJour controlleurPageJour = new ControlleurPageJour(cahier, panneauDeControle,stage);
 
         controlleurPageDeGarde.initData(cahier, panneauDeControle);
 
@@ -44,7 +44,7 @@ public class MainCahier extends Application {
 
         final BorderPane root = (BorderPane) fxmlLoader.load();
         // Création de la scène.
-        final Scene scene = new Scene(root, 600, 800);
+        final Scene scene = new Scene(root, 600, 700);
         stage.setScene(scene);
 
         stage.setTitle("Test FXML");

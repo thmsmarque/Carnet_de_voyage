@@ -89,7 +89,7 @@ public class PanneauDeControle {
 
 
         ControlleurPageDeGarde controlleurPageDeGarde = new ControlleurPageDeGarde(cahier, this);
-        ControlleurPageJour controlleurPageJour = new ControlleurPageJour(cahier, this);
+        ControlleurPageJour controlleurPageJour = new ControlleurPageJour(cahier, this,stage);
 
 
         fxmlLoader.setControllerFactory(ic-> {
@@ -101,7 +101,7 @@ public class PanneauDeControle {
         final BorderPane root;
         try {
             root = fxmlLoader.load();
-            final Scene scene = new Scene(root, 600, 800);
+            final Scene scene = new Scene(root, 600, 700);
             stage.setScene(scene);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -130,7 +130,7 @@ public class PanneauDeControle {
         final BorderPane root;
         try {
             root = loader.load();
-            final Scene scene = new Scene(root, 600, 800);
+            final Scene scene = new Scene(root, 600, 700);
             stage.setScene(scene);
         } catch (IOException e) {
             throw new RuntimeException(e);

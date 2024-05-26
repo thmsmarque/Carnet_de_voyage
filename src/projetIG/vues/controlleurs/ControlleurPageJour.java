@@ -9,14 +9,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import vues.controlleurs.ControlleurSmallNodeImage;
 import vues.controlleurs.ControlleurSmallNodeText;
 import vues.Observateur;
 import vues.PanneauDeControle;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -64,17 +68,18 @@ public class ControlleurPageJour implements Observateur {
     @FXML
     private Button tournerGauche;
 
-    @FXML
+    Stage stage;
 
     Pane nodeSelected;
     Cahier cahier;
     PanneauDeControle panneauDeControle;
 
-    public ControlleurPageJour(Cahier c, PanneauDeControle panneauDeControle) {
+    public ControlleurPageJour(Cahier c, PanneauDeControle panneauDeControle, Stage stage) {
         this.cahier = c;
         this.panneauDeControle = panneauDeControle;
         panneauDeControle.controlleurPageJour=this;
         c.ajouterObservateur(this);
+        this.stage = stage;
     }
 
     /**
@@ -114,7 +119,20 @@ public class ControlleurPageJour implements Observateur {
 
     @FXML
     void ajouterPhoto(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select Image");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif")
+        );
 
+        File file = fileChooser.showOpenDialog(stage);
+
+        if (file != null) {
+            Image image = new Image(file.toURI().toString());
+            cahier.getPageCourante().setNodeIG(new NodeImageIG(image),getIntNodeSelected());
+        }
+
+        cahier.notifierObservateurs();
     }
 
     @FXML
@@ -284,7 +302,7 @@ public class ControlleurPageJour implements Observateur {
                     // Création du loader.
                     final FXMLLoader fxmlLoader = new FXMLLoader(url);
 
-                    ControlleurSmallNodeImage controlleurSmallNodeImage= new ControlleurSmallNodeImage(node);
+                    ControlleurSmallNodeImage controlleurSmallNodeImage= new ControlleurSmallNodeImage(node,stage);
 
                     fxmlLoader.setControllerFactory(ic-> {
                         if(ic.equals(vues.controlleurs.ControlleurSmallNodeImage.class)) return controlleurSmallNodeImage;
@@ -333,7 +351,7 @@ public class ControlleurPageJour implements Observateur {
                     // Création du loader.
                     final FXMLLoader fxmlLoader = new FXMLLoader(url);
 
-                    ControlleurSmallNodeImage controlleurSmallNodeImage = new ControlleurSmallNodeImage(node);
+                    ControlleurSmallNodeImage controlleurSmallNodeImage = new ControlleurSmallNodeImage(node,stage);
 
                     fxmlLoader.setControllerFactory(ic-> {
                         if(ic.equals(vues.controlleurs.ControlleurSmallNodeImage.class)) return controlleurSmallNodeImage;
@@ -382,7 +400,7 @@ public class ControlleurPageJour implements Observateur {
                     // Création du loader.
                     final FXMLLoader fxmlLoader = new FXMLLoader(url);
 
-                    ControlleurSmallNodeImage controlleurSmallNodeImage = new ControlleurSmallNodeImage(node);
+                    ControlleurSmallNodeImage controlleurSmallNodeImage = new ControlleurSmallNodeImage(node,stage);
 
                     fxmlLoader.setControllerFactory(ic-> {
                         if(ic.equals(vues.controlleurs.ControlleurSmallNodeImage.class)) return controlleurSmallNodeImage;
@@ -431,7 +449,7 @@ public class ControlleurPageJour implements Observateur {
                     // Création du loader.
                     final FXMLLoader fxmlLoader = new FXMLLoader(url);
 
-                    ControlleurSmallNodeImage controlleurSmallNodeImage = new ControlleurSmallNodeImage(node);
+                    ControlleurSmallNodeImage controlleurSmallNodeImage = new ControlleurSmallNodeImage(node,stage);
 
                     fxmlLoader.setControllerFactory(ic-> {
                         if(ic.equals(vues.controlleurs.ControlleurSmallNodeImage.class)) return controlleurSmallNodeImage;
