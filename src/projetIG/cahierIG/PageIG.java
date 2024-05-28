@@ -54,7 +54,7 @@ public abstract class PageIG{
     }
 
     /**
-     * Change la node séléctionnée, -1 = null  1 = largeNode 2 = smallNodeLeftBottom 3 = smallNodeRightBottom 4 = smallNodeLeftTop 5 = smallNodeRightTop
+     * Change la node séléctionnée, 2 = smallNodeLeftBottom 3 = smallNodeRightBottom 4 = smallNodeLeftTop 5 = smallNodeRightTop
      * @param node nouvelle node
      */
     public void setNodeIG(NodeIG nodeIG,int node)
@@ -77,6 +77,8 @@ public abstract class PageIG{
             smallNodeRightTop = nodeIG;
         }
     }
+
+
 
 
     public NodeIG getSmallNodeLeftBottom()
@@ -184,6 +186,16 @@ public abstract class PageIG{
         return titre;
     }
 
+
+    public void setTitre(String titre) throws CahierException
+    {
+        if(titre == null || titre.length()>22)
+        {
+            throw new CahierException("Le titre ne peut pas être vide ou faire plus de 22 caractères!");
+
+        }
+        this.titre = titre;
+    }
     /**
      * Renvoie une chaîne de caractère
      * @return

@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <BorderPane maxHeight="700.0" maxWidth="600.0" minHeight="700.0" minWidth="600.0" prefHeight="700.0" prefWidth="600.0" style="-fx-background-color: #0c87f9;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vues.controlleurs.ControlleurPageDeGarde">
    <center>
@@ -26,14 +27,9 @@
                   <Font name="Cooper Black" size="29.0" />
                </font>
             </Button>
-            <Label layoutX="64.0" layoutY="14.0" prefHeight="249.0" prefWidth="472.0" text="Carnet de voyage" textAlignment="CENTER" textFill="#ffeb00" wrapText="true">
+            <Label layoutX="64.0" layoutY="14.0" prefHeight="249.0" prefWidth="472.0" text="Carnet de voyage" textAlignment="CENTER" textFill="#ffea00" wrapText="true">
                <font>
                   <Font name="Cooper Black" size="86.0" />
-               </font>
-            </Label>
-            <Label fx:id="plageDate" alignment="CENTER" layoutX="118.0" layoutY="275.0" prefHeight="43.0" prefWidth="364.0" text="01/01/0000 - 01/01/0000" textAlignment="CENTER" textFill="#ffeb00" wrapText="true">
-               <font>
-                  <Font name="Cooper Black" size="26.0" />
                </font>
             </Label>
             <Label alignment="TOP_CENTER" layoutX="48.0" layoutY="336.0" prefHeight="38.0" prefWidth="236.0" text="Liste des participants" textAlignment="CENTER" textFill="#ffeb00">
@@ -41,6 +37,11 @@
                   <Font name="Cooper Black" size="20.0" />
                </font>
             </Label>
+            <Text fx:id="plageDate" fill="#ffea00" layoutY="287.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="600.0000000000001">
+               <font>
+                  <Font name="Cooper Black" size="23.0" />
+               </font>
+            </Text>
          </children>
       </AnchorPane>
    </center>
@@ -58,6 +59,7 @@
           <Menu mnemonicParsing="false" text="Edition">
             <items>
               <MenuItem fx:id="ajouterParticipantButton" mnemonicParsing="false" onAction="#ajouterParticipant" text="Ajouter Participant" />
+                  <MenuItem fx:id="supprimerParticipants" mnemonicParsing="false" onAction="#supprimerParticipants" text="Supprimer Participant" />
             </items>
           </Menu>
         </menus>

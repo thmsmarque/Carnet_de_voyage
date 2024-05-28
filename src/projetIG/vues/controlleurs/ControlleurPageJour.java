@@ -1,11 +1,14 @@
 package vues.controlleurs;
 
 import cahierIG.*;
+import com.sothawo.mapjfx.Coordinate;
 import exceptions.CahierException;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
@@ -15,6 +18,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import vues.controlleurs.ControlleurSmallNodeImage;
 import vues.controlleurs.ControlleurSmallNodeText;
 import vues.Observateur;
@@ -114,6 +118,7 @@ public class ControlleurPageJour implements Observateur {
 
     @FXML
     void ajouterGPS(ActionEvent event) {
+        cahier.getPageCourante().setNodeIG(new NodeGPSIG(new Coordinate(49.013517, 8.404435)),getIntNodeSelected());
 
     }
 
@@ -137,7 +142,6 @@ public class ControlleurPageJour implements Observateur {
 
     @FXML
     void ajouterTexte(ActionEvent event) {
-        NodeTexteIG node = new NodeTexteIG();
         TextInputDialog text = new TextInputDialog();
         text.setTitle("Nouvelle node texte");
         text.setHeaderText("Que veux-tu écrire à cet emplacement? :)");
@@ -153,6 +157,37 @@ public class ControlleurPageJour implements Observateur {
     @FXML
     void changerStylePage(ActionEvent event) {
 
+    }
+
+    @FXML
+    void changerTitre()
+    {
+        TextInputDialog text = new TextInputDialog();
+        text.setTitle("Nouveau titre");
+        text.setHeaderText("Choisis le titre de cette page");
+        text.setContentText("");
+        Optional<String> result = text.showAndWait();
+        result.ifPresent(e -> {
+            try {
+                cahier.getPageCourante().setTitre(e.toString());
+
+
+            } catch (CahierException ex) {
+
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur");
+                alert.setHeaderText("Erreur lors du changement du titre!");
+                alert.setContentText(e);
+                alert.show();
+                PauseTransition p = new PauseTransition(Duration.seconds(5));
+                p.setOnFinished(event-> alert.close());
+
+                p.play();
+                throw new RuntimeException(ex);
+            }
+        });
+
+        cahier.notifierObservateurs();
     }
 
     @FXML
@@ -248,6 +283,12 @@ public class ControlleurPageJour implements Observateur {
         panneauDeControle.retourPageDeGarde();
     }
 
+    @FXML
+    void supprimerNode(ActionEvent event) {
+        cahier.getPageCourante().supprimerNodeIG(getIntNodeSelected());
+        cahier.notifierObservateurs();
+    }
+
 
     @Override
     public void reagir() {
@@ -268,9 +309,15 @@ public class ControlleurPageJour implements Observateur {
             smallNode3.getChildren().clear();
             smallNode4.getChildren().clear();
 
+            smallNode1.setStyle("-fx-background-color: #C7DCD5");
+            smallNode2.setStyle("-fx-background-color: #C7DCD5");
+            smallNode3.setStyle("-fx-background-color: #C7DCD5");
+            smallNode4.setStyle("-fx-background-color: #C7DCD5");
+
 
             
 
+            //S'occupe de la node en bas à gauche
             if(page.getSmallNodeLeftBottom() != null)
             {
                 if(page.getSmallNodeLeftBottom().estTexte())
@@ -315,12 +362,32 @@ public class ControlleurPageJour implements Observateur {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
+                }else if(page.getSmallNodeLeftBottom().estGPS())
+                {
+                    NodeGPSIG node = (NodeGPSIG)page.getSmallNodeLeftBottom();
+                    final URL url = getClass().getResource("/fxml/smallPaneGPS.fxml");
+                    final FXMLLoader fxmlLoader = new FXMLLoader(url);
+
+                    ControlleurSmallNodeGPS controlleurSmallNodeGPS= new ControlleurSmallNodeGPS(node);
+
+                    fxmlLoader.setControllerFactory(ic-> {
+                        if(ic.equals(vues.controlleurs.ControlleurSmallNodeGPS.class)) return controlleurSmallNodeGPS;
+                        else return null;
+                    });
+
+                    try {
+                        smallNode1.getChildren().add((Pane) fxmlLoader.load());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
                 }
             }else
             {
                 smallNode1.setStyle("-fx-background-color: #C7DCD5");
             }
 
+            //S'occupe de la node en bas à droite
             if(page.getSmallNodeRightBottom() != null)
             {
                 if(page.getSmallNodeRightBottom().estTexte())
@@ -370,6 +437,7 @@ public class ControlleurPageJour implements Observateur {
                 smallNode2.setStyle("-fx-background-color: #C7DCD5");
             }
 
+            //S'occupe de la node en haut à droite
             if(page.getSmallNodeRightTop() != null)
             {
                 if(page.getSmallNodeRightTop().estTexte())
@@ -419,6 +487,7 @@ public class ControlleurPageJour implements Observateur {
                 smallNode3.setStyle("-fx-background-color: #C7DCD5");
             }
 
+            //S'occupe de la node en haut à gauche
             if(page.getSmallNodeLeftTop() != null)
             {
                 if(page.getSmallNodeLeftTop().estTexte())
@@ -468,7 +537,7 @@ public class ControlleurPageJour implements Observateur {
                 smallNode4.setStyle("-fx-background-color: #C7DCD5");
             }
 
-
+            //Si aucune node n'est séléctionnée
             if (nodeSelected != null) {
                 nodeSelected.setStyle("-fx-background-color: #a5c589");
             }

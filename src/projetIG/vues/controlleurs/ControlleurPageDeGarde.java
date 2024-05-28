@@ -4,18 +4,25 @@ import cahierIG.Cahier;
 import cahierIG.DateCahier;
 import cahierIG.NodeTexteIG;
 import exceptions.CahierException;
+import javafx.animation.PauseTransition;
+import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.text.Text;
+import javafx.util.Duration;
 import vues.Observateur;
 import vues.PanneauDeControle;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Random;
 
 public class ControlleurPageDeGarde implements Observateur{
 
@@ -38,10 +45,12 @@ public class ControlleurPageDeGarde implements Observateur{
     private Button pdjButton;
 
     @FXML
-    private Label plageDate;
+    private Text plageDate;
 
     @FXML
     private MenuItem sauvegarderButton;
+    @FXML
+    private MenuItem supprimerParticipants;
 
 
     Cahier c;
@@ -64,6 +73,10 @@ public class ControlleurPageDeGarde implements Observateur{
         this.p = p;
         c.ajouterObservateur(this);
         items = FXCollections.observableArrayList();
+    }
+
+    @FXML
+    void initialize() {
     }
 
     @FXML
@@ -92,7 +105,7 @@ public class ControlleurPageDeGarde implements Observateur{
     }
 
     @FXML
-    void afficherUnePageAleatoire(ActionEvent event) {
+    void afficherUnePageAleatoire(ActionEvent event){
 
     }
 
@@ -117,7 +130,7 @@ public class ControlleurPageDeGarde implements Observateur{
 
     @FXML
     void fermerCarnet(ActionEvent event) {
-
+        Platform.exit();
     }
 
     @FXML
@@ -125,13 +138,46 @@ public class ControlleurPageDeGarde implements Observateur{
 
     }
 
+    @FXML
+    void supprimerParticipants(ActionEvent event) {
+        ObservableList<String> selected = listeParticipants.getSelectionModel().getSelectedItems();
+
+        for(String g : selected)
+        {
+            try {
+                p.supprimerParticipant(g);
+            } catch (CahierException e) {
+
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur");
+                alert.setHeaderText("Erreur lors de la suppression d'un participant!");
+                alert.setContentText(e.toString());
+                alert.show();
+                PauseTransition p = new PauseTransition(Duration.seconds(5));
+                p.setOnFinished(ev-> alert.close());
+
+                p.play();
+
+                throw new RuntimeException(e);
+            }
+        }
+
+        c.notifierObservateurs();
+
+    }
+
     @Override
     public void reagir() {
-        plageDate.setText(c.getMinimum().toString() + " - " + c.getMaximum().toString());
 
+        if(c.getMinimum() != null && c.getMaximum() != null)
+            plageDate.setText(c.getMinimum().toString() + " - " + c.getMaximum().toString());
 
-        /*listeParticipants.getItems().clear();
+        listeParticipants.getItems().clear();
         c.getParticipants().
-                forEach(c->listeParticipants.getItems().add(c));*/
+                forEach(c->listeParticipants.getItems().add(c));
+
+
+
+
     }
 }

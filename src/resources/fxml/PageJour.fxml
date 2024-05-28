@@ -29,6 +29,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#ajouterGPS" text="Ajouter Coordonnées GPS" />
                   <MenuItem mnemonicParsing="false" onAction="#ajouterTexte" text="Ajouter Texte" />
                   <MenuItem mnemonicParsing="false" onAction="#ajouterPhoto" text="Ajouter Photo" />
+                  <MenuItem fx:id="supprNode" mnemonicParsing="false" onAction="#supprimerNode" text="Supprimer une node" />
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem mnemonicParsing="false" onAction="#changerStylePage" text="Changer Style Page" />
             </items>
@@ -47,17 +48,17 @@
    <center>
       <AnchorPane prefHeight="595.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <Label id="date1" fx:id="date1" alignment="CENTER" contentDisplay="CENTER" layoutX="131.0" layoutY="14.0" text="01/01/2024" textAlignment="CENTER" textFill="#ee60b5">
+            <Label id="date1" fx:id="date1" alignment="CENTER" contentDisplay="CENTER" layoutY="14.0" prefHeight="63.0" prefWidth="600.0" text="01/01/2024" textAlignment="CENTER" textFill="#ee60b5">
                <font>
                   <Font name="Cooper Black" size="54.0" />
                </font>
             </Label>
-            <Label fx:id="date2" alignment="CENTER" contentDisplay="CENTER" layoutX="164.0" layoutY="77.0" text="Jour de la page" textAlignment="CENTER" textFill="#ee60b5">
+            <Label fx:id="date2" alignment="CENTER" contentDisplay="CENTER" layoutY="77.0" prefHeight="38.0" prefWidth="600.0" text="Jour de la page" textAlignment="CENTER" textFill="#ee60b5">
                <font>
                   <Font name="Cooper Black" size="32.0" />
                </font>
             </Label>
-            <Label fx:id="titrePage" alignment="CENTER" contentDisplay="CENTER" layoutX="86.0" layoutY="109.0" text="Titre de la page" textAlignment="CENTER" textFill="#ee60b5">
+            <Label fx:id="titrePage" alignment="CENTER" contentDisplay="CENTER" layoutX="-1.0" layoutY="109.0" onMouseClicked="#changerTitre" prefHeight="64.0" prefWidth="600.0" text="Titre de la page" textAlignment="CENTER" textFill="#ee60b5">
                <font>
                   <Font name="Cooper Black" size="55.0" />
                </font>

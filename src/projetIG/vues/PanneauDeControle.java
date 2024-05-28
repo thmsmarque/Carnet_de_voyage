@@ -98,6 +98,7 @@ public class PanneauDeControle {
             else return null;
         });
 
+
         final BorderPane root;
         try {
             root = fxmlLoader.load();
@@ -136,6 +137,22 @@ public class PanneauDeControle {
             throw new RuntimeException(e);
         }
 
+    }
+
+    /**
+     * Méthode qui permet de retirer un participant de la liste
+     * @param id participant à retirer
+     * @throws CahierException vérifie que le participant est bien présent dans la liste
+     */
+    public void supprimerParticipant(String id) throws CahierException
+    {
+        if(!cahier.getParticipants().contains(id))
+        {
+            throw new CahierException("Vous tentez de supprimer un participant " + id + " non présent dans la liste");
+        }else
+        {
+            cahier.getParticipants().remove(id);
+        }
     }
 
     /**
