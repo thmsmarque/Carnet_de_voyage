@@ -2,15 +2,18 @@ package vues;
 
 import cahierIG.Cahier;
 import cahierIG.DateCahier;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import exceptions.CahierException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import vues.controlleurs.ControlleurPageDeGarde;
 import vues.controlleurs.ControlleurPageJour;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.Date;
 
@@ -164,4 +167,65 @@ public class PanneauDeControle {
         cahier.ajouterParticipant(nom);
     }
 
+    public void sauvegarderMonde()
+    {
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation()
+                .create();;
+
+        File file;
+
+        FileChooser fileChooser = new FileChooser();
+
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
+        fileChooser.getExtensionFilters().add(extFilter);
+        file = fileChooser.showSaveDialog(stage);
+
+
+        try
+        {
+            FileWriter fileWriter = new FileWriter(file);
+            BufferedWriter ecrire = new BufferedWriter(fileWriter);
+
+                ecrire.write(gson.toJson(cahier));
+
+            ecrire.newLine();
+
+
+            ecrire.close();
+        }
+        catch(IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void chargerMonde()
+    {
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation()
+                .create();;
+
+        File file;
+
+        FileChooser fileChooser = new FileChooser();
+
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
+        fileChooser.getExtensionFilters().add(extFilter);
+        file = fileChooser.showSaveDialog(stage);
+
+        try
+        {
+            FileReader fileReader = new FileReader(file);
+            BufferedReader lecture = new BufferedReader(fileReader);
+
+            lecture.read(gson());
+
+
+
+            lecture.close();
+        }
+        catch(IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
 }

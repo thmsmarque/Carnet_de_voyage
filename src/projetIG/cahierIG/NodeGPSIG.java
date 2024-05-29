@@ -1,12 +1,14 @@
 package cahierIG;
 
+import com.google.gson.annotations.Expose;
 import com.sothawo.mapjfx.Coordinate;
 import com.sothawo.mapjfx.MapLabel;
 
 public class NodeGPSIG extends NodeIG{
 
+    @Expose
     Coordinate coord;
-
+    @Expose
     MapLabel mapLabel;
 
     public NodeGPSIG(Coordinate coord)

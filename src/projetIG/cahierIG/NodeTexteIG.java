@@ -1,9 +1,10 @@
 package cahierIG;
 
+import com.google.gson.annotations.Expose;
 import javafx.scene.control.Label;
 
 public class NodeTexteIG extends NodeIG{
-
+    @Expose
     String texte;
 
 

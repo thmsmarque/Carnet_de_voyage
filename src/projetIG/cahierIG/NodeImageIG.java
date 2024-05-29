@@ -1,9 +1,11 @@
 package cahierIG;
 
+import com.google.gson.annotations.Expose;
 import javafx.scene.image.Image;
 
 public class NodeImageIG extends NodeIG{
 
+    @Expose
     Image image;
 
     public NodeImageIG(Image image){

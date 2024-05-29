@@ -1,5 +1,6 @@
 package cahierIG;
 
+import com.google.gson.annotations.Expose;
 import exceptions.CahierException;
 
 
@@ -8,11 +9,18 @@ import java.util.*;
 
 public class Cahier extends SujetObserve implements Iterable<PageIG>{
 
+    @Expose
     String auteur;
+    @Expose
     ArrayList<String> participants;
+    @Expose
     HashMap<DateCahier,PageIG> pages;
+    @Expose
     DateCahier courante;
-    DateCahier maximum, minimum;
+    @Expose
+    DateCahier maximum;
+    @Expose
+    DateCahier minimum;
 
     PageDeGardeIG pdg;
 

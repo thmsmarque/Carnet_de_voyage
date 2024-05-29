@@ -3,6 +3,8 @@ package vues.controlleurs;
 import cahierIG.Cahier;
 import cahierIG.DateCahier;
 import cahierIG.NodeTexteIG;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import exceptions.CahierException;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
@@ -135,7 +137,7 @@ public class ControlleurPageDeGarde implements Observateur{
 
     @FXML
     void sauvegargerCarnet(ActionEvent event) {
-
+        p.sauvegarderMonde();
     }
 
     @FXML

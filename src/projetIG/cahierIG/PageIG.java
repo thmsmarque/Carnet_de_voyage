@@ -1,5 +1,6 @@
 package cahierIG;
 
+import com.google.gson.annotations.Expose;
 import exceptions.CahierException;
 import javafx.scene.layout.Pane;
 import outils.FabriqueIdentifiant;
@@ -9,14 +10,23 @@ import java.util.HashMap;
 
 public abstract class PageIG{
 
+
+    @Expose
     private DateCahier dateDuJour = null;
+    @Expose
     String titre;
+    @Expose
     String identifiant;
+    @Expose
     NodeIG nodeSelectionnee;
 
+    @Expose
     NodeIG smallNodeLeftBottom;
+    @Expose
     NodeIG smallNodeRightBottom;
+    @Expose
     NodeIG smallNodeRightTop;
+    @Expose
     NodeIG smallNodeLeftTop;
 
     public PageIG()
