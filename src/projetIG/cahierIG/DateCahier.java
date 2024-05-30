@@ -45,7 +45,19 @@ public class DateCahier extends Date {
 
     public String toString()
     {
-        return jour+"/"+mois+"/"+annee;
+        String d;
+        if(jour <= 9)
+            d = "0"+jour;
+        else
+            d = ""+jour;
+
+        String m;
+        if(mois <= 9)
+            m = "0"+mois;
+        else
+            m = ""+mois;
+
+        return d+"/"+m+"/"+annee;
     }
 
     /**

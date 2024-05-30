@@ -177,8 +177,7 @@ public class PanneauDeControle {
 
     public void sauvegarderMonde() throws CahierException
     {
-        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation()
-                .setPrettyPrinting().create();
+        Gson gson = new Gson();
 
 
         DirectoryChooser directoryChooser = new DirectoryChooser();
@@ -253,14 +252,14 @@ public class PanneauDeControle {
                                     if (n != null) {
                                         if (n.estTexte()) {
                                             NodeTexteIG nt = (NodeTexteIG) n;
-                                            ecrire.write('t');
+                                            ecrire.write(20);
                                             ecrire.newLine();
                                             ecrire.write(gson.toJson(nt.getTexte()));
                                             ecrire.newLine();
                                         }
                                         if (n.estImage()) {
                                             NodeImageIG nt = (NodeImageIG) n;
-                                            ecrire.write('i');
+                                            ecrire.write(21);
                                             ecrire.newLine();
                                             String pathToImage = imagesDirectory.getAbsolutePath()+"/image"+indice+".png";
                                             ecrire.write(gson.toJson(pathToImage));
@@ -269,7 +268,7 @@ public class PanneauDeControle {
                                         }
                                     }else
                                     {
-                                        ecrire.write("null");
+                                        ecrire.write(19);
                                         ecrire.newLine();
                                     }
                                     indice++;
@@ -303,7 +302,7 @@ public class PanneauDeControle {
     public void chargerMonde()
     {
         Cahier cahier = new Cahier();
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Gson gson = new Gson();
 
         File file;
 
@@ -354,21 +353,21 @@ public class PanneauDeControle {
                         for(NodeIG n : page)
                         {
                             System.out.println("Parcours node");
-                            char typeNode = ' ';
-                            typeNode =  gson.fromJson(lire.readLine(), char.class);
+                            int typeNode = gson.fromJson(lire.readLine(), int.class);
 
 
-                            if(typeNode == 't')
+                            if(typeNode == 20)
                             {
                                 System.out.println("Chargement texte");
                                 n = new NodeTexteIG(gson.fromJson(lire.readLine(), String.class));
-                            }else if(typeNode == 'i')
+                            }else if(typeNode == 21)
                             {
                                 System.out.println("Chargement image");
                                 String pathToImage = imagesDirectory.getAbsolutePath()+"/image"+indice+".png";
                                 Image img = ImageFileUtils.loadImageFromFile(pathToImage);
                                 n = new NodeImageIG(ImageFileUtils.loadImageFromFile(pathToImage));
                             }
+
                             indice++;
                         }
                         cahier.ajouterPage(page);
