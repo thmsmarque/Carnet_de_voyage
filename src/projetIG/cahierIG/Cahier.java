@@ -2,9 +2,13 @@ package cahierIG;
 
 import com.google.gson.annotations.Expose;
 import exceptions.CahierException;
+import javafx.fxml.FXMLLoader;
+import vues.controlleurs.ControlleurPageDeGarde;
+import vues.controlleurs.ControlleurPageJour;
 
 
 import javax.lang.model.type.ArrayType;
+import java.net.URL;
 import java.util.*;
 
 public class Cahier extends SujetObserve implements Iterable<PageIG>{
@@ -22,23 +26,14 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
     @Expose
     DateCahier minimum;
 
-    PageDeGardeIG pdg;
 
     public Cahier()
     {
         participants = new ArrayList<>();
         pages = new HashMap<DateCahier, PageIG>();
-        pdg = genererPDG();
     }
 
-    /**
-     * Génère une page de garde
-     */
-    PageDeGardeIG genererPDG()
-    {
-        PageDeGardeIG pdg = new PageDeGardeIG();
-        return pdg;
-    }
+
 
     /**
      * Ajouter une nouvelle page si elle n'a pas déjà été ajoutée
@@ -49,7 +44,7 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
         {
             throw new CahierException("Problème! Cette date a déjà été attribuée à une page");
         }
-        PageJourIG page = new PageJourIG(dateCahier, titre);
+        PageIG page = new PageIG(dateCahier, titre);
         pages.put(dateCahier,page);
         courante = dateCahier;
 
@@ -72,6 +67,32 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
 
         System.out.println("Une nouvelle page a été ajoutée! => " + page.toString());
         System.out.println("Minimum : "+minimum.toString() + " -- Maximum : " + maximum.toString());
+    }
+
+    public void ajouterPage(PageIG page) throws CahierException
+    {
+        if(this.estDejaDansCahier(page.getDate()))
+        {
+            throw new CahierException("Problème! Cette date a déjà été attribuée à une page");
+        }
+        pages.put(page.getDate(),page);
+
+        if(minimum==null)
+        {
+            minimum = new DateCahier(page.getDate().annee, page.getDate().mois, page.getDate().jour);
+        }
+        if(maximum==null)
+        {
+            maximum = new DateCahier(page.getDate().annee, page.getDate().mois, page.getDate().jour);
+        }
+        if(minimum.avant(page.getDate()))
+        {
+            minimum = new DateCahier(page.getDate().annee, page.getDate().mois, page.getDate().jour);
+        }
+        if(maximum.apres(page.getDate()))
+        {
+            maximum = new DateCahier(page.getDate().annee, page.getDate().mois, page.getDate().jour);
+        }
     }
 
     /**
@@ -108,6 +129,21 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
                 maximum = nouvelleMaximum();
             }
         }
+    }
+
+    public void setMinimum(DateCahier date)
+    {
+        minimum = date;
+    }
+
+    public void setMaximum(DateCahier max)
+    {
+        maximum = max;
+    }
+
+    public void setAuteur(String auteur)
+    {
+        this.auteur = auteur;
     }
 
     public DateCahier nouvelleMinimum()
@@ -257,10 +293,10 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
         }
     }
 
-    public PageJourIG getPageCourante()
+    public PageIG getPageCourante()
     {
         //System.out.println(courante.toString());
-        PageJourIG page = (PageJourIG)pages.get(courante);
+        PageIG page = (PageIG)pages.get(courante);
         if(page == null)
         {
             //System.out.println("Page n'existe pas");
@@ -321,11 +357,38 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
         return res;
     }
 
+    public void chargerCahier(Cahier c)
+    {
+        this.courante = null;
+        this.minimum = c.getMinimum();
+        this.maximum = c.getMaximum();
+        this.participants.clear();
+        this.participants.addAll(c.getParticipants());
+        this.pages.clear();
+        for(PageIG page : c.getPages())
+        {
+            this.pages.put(page.getDateDuJour(), page);
+        }
+        this.auteur = c.getAuteur();
+
+        System.out.println("Auteur : " +auteur);
+        System.out.println("Minimum : " + minimum.toString());
+        System.out.println("Maximum : " +maximum.toString());
+        System.out.println("Participants : "+participants);
+        System.out.println("Pages : " +  pages.toString());
+
+
+    }
+
     public ArrayList<String> getParticipants()
     {
         return participants;
     }
 
+    public String getAuteur()
+    {
+        return auteur;
+    }
 
     @Override
     public Iterator<PageIG> iterator() {

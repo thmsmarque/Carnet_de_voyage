@@ -5,10 +5,13 @@ import exceptions.CahierException;
 import javafx.scene.layout.Pane;
 import outils.FabriqueIdentifiant;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 
-public abstract class PageIG{
+public class PageIG implements Iterable<NodeIG>{
 
 
     @Expose
@@ -45,6 +48,16 @@ public abstract class PageIG{
         new HashMap<String,NodeIG>();
         this.dateDuJour = dateDuJour;
         this.identifiant = FabriqueIdentifiant.getInstance().getIdentifiantPage();
+    }
+
+    public void setDate(String date)
+    {
+        dateDuJour = new DateCahier(date);
+    }
+
+    public void setDate(DateCahier date)
+    {
+        dateDuJour = date;
     }
 
 
@@ -215,8 +228,20 @@ public abstract class PageIG{
         return titre + " " + dateDuJour.getDate() + " " + (dateDuJour.getMonth()+1) + " " + dateDuJour.getYear();
     }
 
-    public abstract Boolean estPageJour();
-    public abstract Boolean estPageDeGarde();
+    public DateCahier getDate()
+    {
+        return dateDuJour;
+    }
 
 
+    @Override
+    public Iterator<NodeIG> iterator() {
+        ArrayList<NodeIG> nodes = new ArrayList<>();
+        nodes.add(smallNodeLeftBottom);
+        nodes.add(smallNodeRightBottom);
+        nodes.add(smallNodeLeftTop);
+        nodes.add(smallNodeRightTop);
+
+        return nodes.iterator();
+    }
 }

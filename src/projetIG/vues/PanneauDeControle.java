@@ -1,21 +1,29 @@
 package vues;
 
-import cahierIG.Cahier;
-import cahierIG.DateCahier;
+import cahierIG.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import exceptions.CahierException;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import outils.ImageFileUtils;
 import vues.controlleurs.ControlleurPageDeGarde;
 import vues.controlleurs.ControlleurPageJour;
 
 import java.io.*;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.Optional;
 
 public class PanneauDeControle {
 
@@ -167,65 +175,236 @@ public class PanneauDeControle {
         cahier.ajouterParticipant(nom);
     }
 
-    public void sauvegarderMonde()
+    public void sauvegarderMonde() throws CahierException
     {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation()
-                .create();;
-
-        File file;
-
-        FileChooser fileChooser = new FileChooser();
-
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
-        fileChooser.getExtensionFilters().add(extFilter);
-        file = fileChooser.showSaveDialog(stage);
+                .setPrettyPrinting().create();
 
 
-        try
-        {
-            FileWriter fileWriter = new FileWriter(file);
-            BufferedWriter ecrire = new BufferedWriter(fileWriter);
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Choisissez un répertoire");
 
-                ecrire.write(gson.toJson(cahier));
+        File selectedDirectory = directoryChooser.showDialog(stage);
 
-            ecrire.newLine();
+        if (selectedDirectory != null) {
+            System.out.println("Répertoire sélectionné : " + selectedDirectory.getAbsolutePath());
+
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Nom du nouveau répertoire");
+            dialog.setHeaderText("Créer un nouveau répertoire");
+            dialog.setContentText("Veuillez entrer le nom du nouveau répertoire:");
+
+            Optional<String> result = dialog.showAndWait();
+            result.ifPresent(name -> {
+                File newDirectory = new File(selectedDirectory, name);
+                File imagesDirectory = new File(newDirectory, "images");
+
+                if (!newDirectory.exists()) {
+                    if (newDirectory.mkdir()) {
+                        showAlert(Alert.AlertType.INFORMATION, "Succès", "Répertoire créé", "Le répertoire " + newDirectory.getAbsolutePath() + " a été créé avec succès.");
+                        File file = new File(newDirectory, "sauv.json");
+                        if(!imagesDirectory.exists())
+                        {
+                            if(imagesDirectory.mkdir())
+                            {
+                                System.out.println("Répértoire images crée");
+                            }
+                        }
+                        try
+                        {
+                            FileWriter fileWriter = new FileWriter(file);
+                            BufferedWriter ecrire = new BufferedWriter(fileWriter);
+
+                            //Auteur
+                            ecrire.write(gson.toJson(cahier.getAuteur()));
+                            ecrire.newLine();
+
+                            ecrire.write(gson.toJson(cahier.getMinimum().toString()));
+                            ecrire.newLine();
+
+                            ecrire.write(gson.toJson(cahier.getMaximum().toString()));
+                            ecrire.newLine();
+
+                            //Tous les participants
+                            ecrire.write(gson.toJson(cahier.getParticipants().size()));
+                            ecrire.newLine();
+                            for(String s : cahier.getParticipants())
+                            {
+                                ecrire.write(gson.toJson(s));
+                                ecrire.newLine();
+                            }
+
+                            //Toutes les pages
+
+                            ecrire.write(gson.toJson(this.cahier.getPages().size()));
+                            ecrire.newLine();
+                            int indice = 0;
+                            for(PageIG e : this.cahier.getPages())
+                            {
+
+                                ecrire.write(gson.toJson(e.getDateDuJour().toString()));
+                                ecrire.newLine();
+                                ecrire.write(gson.toJson(e.getTitre()));
+                                ecrire.newLine();
 
 
-            ecrire.close();
+                                //smallNodeLeftBottom
+                                for (NodeIG n : e) {
+                                    if (n != null) {
+                                        if (n.estTexte()) {
+                                            NodeTexteIG nt = (NodeTexteIG) n;
+                                            ecrire.write('t');
+                                            ecrire.newLine();
+                                            ecrire.write(gson.toJson(nt.getTexte()));
+                                            ecrire.newLine();
+                                        }
+                                        if (n.estImage()) {
+                                            NodeImageIG nt = (NodeImageIG) n;
+                                            ecrire.write('i');
+                                            ecrire.newLine();
+                                            String pathToImage = imagesDirectory.getAbsolutePath()+"/image"+indice+".png";
+                                            ecrire.write(gson.toJson(pathToImage));
+                                            ecrire.newLine();
+                                            ImageFileUtils.saveImageToFile(nt.getImage(),pathToImage);
+                                        }
+                                    }else
+                                    {
+                                        ecrire.write("null");
+                                        ecrire.newLine();
+                                    }
+                                    indice++;
+                                }
+
+                            }
+
+                            ecrire.close();
+                        }
+                        catch(IOException e)
+                        {
+                            throw new RuntimeException(e);
+                        }
+                    } else {
+                        showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur de création", "Le répertoire " + newDirectory.getAbsolutePath() + " n'a pas pu être créé.");
+                    }
+                } else {
+                    showAlert(Alert.AlertType.WARNING, "Avertissement", "Répertoire existant", "Le répertoire " + newDirectory.getAbsolutePath() + " existe déjà.");
+                }
+            });
+
+        } else {
+            System.out.println("Aucun répertoire sélectionné");
+            throw new CahierException("Problème: Un répértoire n'a pas été séléctioné");
         }
-        catch(IOException e)
-        {
-            throw new RuntimeException(e);
-        }
+
+
+
     }
 
     public void chargerMonde()
     {
-        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation()
-                .create();;
+        Cahier cahier = new Cahier();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         File file;
 
-        FileChooser fileChooser = new FileChooser();
-
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
-        fileChooser.getExtensionFilters().add(extFilter);
-        file = fileChooser.showSaveDialog(stage);
-
-        try
-        {
-            FileReader fileReader = new FileReader(file);
-            BufferedReader lecture = new BufferedReader(fileReader);
-
-            lecture.read(gson());
 
 
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Choisissez un répertoire");
 
-            lecture.close();
+        File selectedDirectory = directoryChooser.showDialog(stage);
+
+        if(selectedDirectory != null) {
+
+            // Show open file dialog
+            file = new File(selectedDirectory, "sauv.json");
+            if(file.exists()) {
+                try (FileReader reader = new FileReader(file)) {
+
+                    File imagesDirectory = new File(selectedDirectory, "images");
+
+                    BufferedReader lire = new BufferedReader(reader);
+
+                    String auteur = gson.fromJson(lire.readLine(), String.class);
+                    String minimum = gson.fromJson(lire.readLine(), String.class);
+                    String maximum = gson.fromJson(lire.readLine(), String.class);
+
+
+                    ArrayList<String> participants = new ArrayList<>();
+                    int nbParticipants = gson.fromJson(lire.readLine(), int.class);
+                    for(int i =0 ; i < nbParticipants; i++)
+                    {
+                        participants.add(gson.fromJson(lire.readLine(), String.class));
+                    }
+
+
+
+                    int nbPages = gson.fromJson(lire.readLine(), int.class);
+                    int indice = 0;
+                    for(int i =0 ; i < nbPages; i++)
+                    {
+
+                        PageIG page = new PageIG();
+
+                        String dateDuJour = gson.fromJson(lire.readLine(), String.class);
+                        String titre = gson.fromJson(lire.readLine(), String.class);
+
+                        page.setTitre(titre);
+                        page.setDate(dateDuJour);
+                        for(NodeIG n : page)
+                        {
+                            System.out.println("Parcours node");
+                            char typeNode = ' ';
+                            typeNode =  gson.fromJson(lire.readLine(), char.class);
+
+
+                            if(typeNode == 't')
+                            {
+                                System.out.println("Chargement texte");
+                                n = new NodeTexteIG(gson.fromJson(lire.readLine(), String.class));
+                            }else if(typeNode == 'i')
+                            {
+                                System.out.println("Chargement image");
+                                String pathToImage = imagesDirectory.getAbsolutePath()+"/image"+indice+".png";
+                                Image img = ImageFileUtils.loadImageFromFile(pathToImage);
+                                n = new NodeImageIG(ImageFileUtils.loadImageFromFile(pathToImage));
+                            }
+                            indice++;
+                        }
+                        cahier.ajouterPage(page);
+                    }
+
+
+                    lire.close();
+                    for(String par : participants)
+                    {
+                        cahier.ajouterParticipant(par);
+                    }
+                    cahier.setMinimum(new DateCahier(minimum));
+                    cahier.setMaximum(new DateCahier(maximum));
+                    cahier.setAuteur(auteur);
+                    this.cahier.chargerCahier(cahier);
+                    this.cahier = cahier;
+                    this.retourPageDeGarde();
+                    showAlert(Alert.AlertType.CONFIRMATION, "Succés","Chargé avec succés!", "C'est bon, vous pouvez lire votre carnet de voyage");
+                } catch (IOException | CahierException e) {
+                    showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur de Chargement", e.getMessage());
+                }
+            }else
+            {
+                showAlert(Alert.AlertType.ERROR, "Erreur","Erreur de chargement","Le répértoire "+ selectedDirectory.getAbsolutePath() +" ne correspond pas à une sauvegarde de carnet");
+            }
+
+
         }
-        catch(IOException e)
-        {
-            throw new RuntimeException(e);
-        }
+    }
+
+
+    private void showAlert(Alert.AlertType alertType, String title, String header, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

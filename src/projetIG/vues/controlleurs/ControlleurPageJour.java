@@ -92,9 +92,9 @@ public class ControlleurPageJour implements Observateur {
     @FXML
     void initialize() {
         System.out.println("Initialisation...");
-        PageJourIG page = null;
+        PageIG page = null;
         try {
-            page = (PageJourIG)cahier.getPage(cahier.getCourante());
+            page = (PageIG)cahier.getPage(cahier.getCourante());
             System.out.println(page);
             date1.setText(page.getDate().toString());
             date2.setText(page.getDate().format2());
@@ -292,7 +292,7 @@ public class ControlleurPageJour implements Observateur {
 
     @Override
     public void reagir() {
-        PageJourIG page = null;
+        PageIG page = null;
 
 
 

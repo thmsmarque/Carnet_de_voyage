@@ -127,7 +127,7 @@ public class ControlleurPageDeGarde implements Observateur{
 
     @FXML
     void chargerCarnet(ActionEvent event) {
-
+        p.chargerMonde();
     }
 
     @FXML
@@ -137,7 +137,11 @@ public class ControlleurPageDeGarde implements Observateur{
 
     @FXML
     void sauvegargerCarnet(ActionEvent event) {
-        p.sauvegarderMonde();
+        try {
+            p.sauvegarderMonde();
+        } catch (CahierException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML
