@@ -261,7 +261,7 @@ public class PanneauDeControle {
                                             NodeImageIG nt = (NodeImageIG) n;
                                             ecrire.write(gson.toJson('i'));
                                             ecrire.newLine();
-                                            String pathToImage = imagesDirectory.getAbsolutePath()+"\\image"+indice+".png";
+                                            String pathToImage = imagesDirectory.getAbsolutePath()+"/image"+indice+".png";
                                             ecrire.write(gson.toJson(pathToImage));
                                             ecrire.newLine();
                                             ImageFileUtils.saveImageToFile(nt.getImage(),pathToImage);
