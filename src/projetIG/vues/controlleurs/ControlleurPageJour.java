@@ -95,7 +95,7 @@ public class ControlleurPageJour implements Observateur {
         PageIG page = null;
         try {
             page = (PageIG)cahier.getPage(cahier.getCourante());
-            System.out.println(page);
+            System.out.println("Chargement lors de l'initialisation :" +page);
             date1.setText(page.getDate().toString());
             date2.setText(page.getDate().format2());
             titrePage.setText(page.getTitre());

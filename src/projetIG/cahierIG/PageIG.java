@@ -155,17 +155,6 @@ public class PageIG implements Iterable<NodeIG>{
 
 
 
-
-
-    /**
-     * Retourne la date du jour de cette page
-     * @return date du jour
-     */
-    public DateCahier getDateDuJour()
-    {
-        return dateDuJour;
-    }
-
     /**
      * Supprime une node selon le int 2 = smallNodeLeftBottom 3 = smallNodeRightBottom 4 = smallNodeLeftTop 5 = smallNodeRightTop
      * @param node node à supprimer
@@ -225,7 +214,7 @@ public class PageIG implements Iterable<NodeIG>{
      */
     public String toString()
     {
-        return titre + " " + dateDuJour.getDate() + " " + (dateDuJour.getMonth()+1) + " " + dateDuJour.getYear();
+        return titre + " " + dateDuJour.toString();
     }
 
     public DateCahier getDate()

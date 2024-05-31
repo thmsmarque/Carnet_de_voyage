@@ -241,7 +241,7 @@ public class PanneauDeControle {
                             for(PageIG e : this.cahier.getPages())
                             {
 
-                                ecrire.write(gson.toJson(e.getDateDuJour().toString()));
+                                ecrire.write(gson.toJson(e.getDate().toString()));
                                 ecrire.newLine();
                                 ecrire.write(gson.toJson(e.getTitre()));
                                 ecrire.newLine();
@@ -252,23 +252,23 @@ public class PanneauDeControle {
                                     if (n != null) {
                                         if (n.estTexte()) {
                                             NodeTexteIG nt = (NodeTexteIG) n;
-                                            ecrire.write(20);
+                                            ecrire.write(gson.toJson('t'));
                                             ecrire.newLine();
                                             ecrire.write(gson.toJson(nt.getTexte()));
                                             ecrire.newLine();
                                         }
                                         if (n.estImage()) {
                                             NodeImageIG nt = (NodeImageIG) n;
-                                            ecrire.write(21);
+                                            ecrire.write(gson.toJson('i'));
                                             ecrire.newLine();
-                                            String pathToImage = imagesDirectory.getAbsolutePath()+"/image"+indice+".png";
+                                            String pathToImage = imagesDirectory.getAbsolutePath()+"\\image"+indice+".png";
                                             ecrire.write(gson.toJson(pathToImage));
                                             ecrire.newLine();
                                             ImageFileUtils.saveImageToFile(nt.getImage(),pathToImage);
                                         }
                                     }else
                                     {
-                                        ecrire.write(19);
+                                        ecrire.write(gson.toJson('n'));
                                         ecrire.newLine();
                                     }
                                     indice++;
@@ -350,24 +350,31 @@ public class PanneauDeControle {
 
                         page.setTitre(titre);
                         page.setDate(dateDuJour);
+                        int compteur = 2;
                         for(NodeIG n : page)
                         {
                             System.out.println("Parcours node");
-                            int typeNode = gson.fromJson(lire.readLine(), int.class);
+                            char typeNode = gson.fromJson(lire.readLine(), char.class);
 
 
-                            if(typeNode == 20)
+                            if(typeNode == 't')
                             {
                                 System.out.println("Chargement texte");
-                                n = new NodeTexteIG(gson.fromJson(lire.readLine(), String.class));
-                            }else if(typeNode == 21)
+                                NodeTexteIG node = new NodeTexteIG(gson.fromJson(lire.readLine(), String.class));
+                                System.out.println(node.getTexte());
+                                page.setNodeIG(node,compteur);
+                            }else if(typeNode == 'i')
                             {
                                 System.out.println("Chargement image");
-                                String pathToImage = imagesDirectory.getAbsolutePath()+"/image"+indice+".png";
+                                //String pathToImage = imagesDirectory.getAbsolutePath()+"/image"+indice+".png";
+                                String pathToImage = gson.fromJson(lire.readLine(), String.class);
                                 Image img = ImageFileUtils.loadImageFromFile(pathToImage);
-                                n = new NodeImageIG(ImageFileUtils.loadImageFromFile(pathToImage));
-                            }
+                                NodeImageIG node = new NodeImageIG(ImageFileUtils.loadImageFromFile(pathToImage));
 
+                                page.setNodeIG(node,compteur);
+
+                            }
+                            compteur++;
                             indice++;
                         }
                         cahier.ajouterPage(page);

@@ -40,21 +40,27 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
      */
     public void ajouterPage(DateCahier dateCahier, String titre) throws CahierException
     {
+        System.out.println("Création d'une nouvelle page au titre de " + titre + " et à la date " + dateCahier.toString());
         if(this.estDejaDansCahier(dateCahier))
         {
             throw new CahierException("Problème! Cette date a déjà été attribuée à une page");
         }
-        PageIG page = new PageIG(dateCahier, titre);
-        pages.put(dateCahier,page);
-        courante = dateCahier;
+        PageIG page = new PageIG(new DateCahier(dateCahier.toString()), titre);
+        System.out.println("La date de la page nouvellement crée : " +page.getDate().toString());
+        pages.put(new DateCahier(dateCahier.toString()),page);
+        courante = new DateCahier(dateCahier.toString());
 
         if(minimum==null)
         {
             minimum = new DateCahier(dateCahier.annee, dateCahier.mois, dateCahier.jour);
         }
-        if(maximum==null)
+        if(maximum==null && dateCahier.apres(minimum))
         {
             maximum = new DateCahier(dateCahier.annee, dateCahier.mois, dateCahier.jour);
+        }else
+        {
+            maximum = new DateCahier(minimum.toString());
+            minimum = new DateCahier(dateCahier.toString());
         }
         if(minimum.avant(dateCahier))
         {
@@ -81,9 +87,13 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
         {
             minimum = new DateCahier(page.getDate().annee, page.getDate().mois, page.getDate().jour);
         }
-        if(maximum==null)
+        if(maximum==null && page.getDate().avant(minimum))
         {
             maximum = new DateCahier(page.getDate().annee, page.getDate().mois, page.getDate().jour);
+        }else
+        {
+            maximum = new DateCahier(minimum.toString());
+            minimum = new DateCahier(page.getDate().toString());
         }
         if(minimum.avant(page.getDate()))
         {
@@ -190,9 +200,9 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
     {
         System.out.println("Tentative de passage au jour suivant...\n");
 
-        DateCahier nouvelle = new DateCahier(courante.annee, courante.mois, courante.jour);
-        if(nouvelle.before(maximum)) {
-            //System.out.println("Le jour suivant est avant le maximum...\n");
+        DateCahier nouvelle = new DateCahier(courante.toString());
+        if(nouvelle.before(maximum) && !nouvelle.equals(maximum)) {
+            System.out.println("Le jour suivant est avant le maximum...\n");
             try {
                 do {
                     nouvelle.setDate(nouvelle.jourSuivant());
@@ -215,7 +225,7 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
     {
         for(PageIG page : pages.values())
         {
-            if(page.getDateDuJour().equalsDate(date))
+            if(page.getDate().equalsDate(date))
             {
                 //System.out.println(date.toString() + " cette date est présente dans le cahier");
                 return true;
@@ -240,8 +250,8 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
     public void jourPrecedent()
     {
         //System.out.println("Tentative de passage au jour précédent...\n");
-        DateCahier nouvelle = new DateCahier(courante.annee, courante.mois, courante.jour);
-        if(nouvelle.after(minimum)) {
+        DateCahier nouvelle = new DateCahier(courante.toString());
+        if(nouvelle.after(minimum) && !nouvelle.equalsDate(minimum)) {
             //System.out.println("Le jour précédent est après le minimum...\n");
 
             try {
@@ -287,7 +297,7 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
             {
                 System.out.println("Page n'existe pas dans getPage(DateCahier dateCahier)\n");
             }else {
-                //System.out.println("Page renvoyée : " + page.toString());
+                System.out.println("Page renvoyée : " + page.toString());
             }
             return page;
         }
@@ -367,7 +377,7 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
         this.pages.clear();
         for(PageIG page : c.getPages())
         {
-            this.pages.put(page.getDateDuJour(), page);
+            this.pages.put(page.getDate(), page);
         }
         this.auteur = c.getAuteur();
 
