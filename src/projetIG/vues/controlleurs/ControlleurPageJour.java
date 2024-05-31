@@ -1,7 +1,6 @@
 package vues.controlleurs;
 
 import cahierIG.*;
-import com.sothawo.mapjfx.Coordinate;
 import exceptions.CahierException;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
@@ -15,12 +14,9 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import vues.controlleurs.ControlleurSmallNodeImage;
-import vues.controlleurs.ControlleurSmallNodeText;
 import vues.Observateur;
 import vues.PanneauDeControle;
 
@@ -116,11 +112,6 @@ public class ControlleurPageJour implements Observateur {
 
     }
 
-    @FXML
-    void ajouterGPS(ActionEvent event) {
-        cahier.getPageCourante().setNodeIG(new NodeGPSIG(new Coordinate(49.013517, 8.404435)),getIntNodeSelected());
-
-    }
 
     @FXML
     void ajouterPhoto(ActionEvent event) {
@@ -362,27 +353,10 @@ public class ControlleurPageJour implements Observateur {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-                }else if(page.getSmallNodeLeftBottom().estGPS())
-                {
-                    NodeGPSIG node = (NodeGPSIG)page.getSmallNodeLeftBottom();
-                    final URL url = getClass().getResource("/fxml/smallPaneGPS.fxml");
-                    final FXMLLoader fxmlLoader = new FXMLLoader(url);
-
-                    ControlleurSmallNodeGPS controlleurSmallNodeGPS= new ControlleurSmallNodeGPS(node);
-
-                    fxmlLoader.setControllerFactory(ic-> {
-                        if(ic.equals(vues.controlleurs.ControlleurSmallNodeGPS.class)) return controlleurSmallNodeGPS;
-                        else return null;
-                    });
-
-                    try {
-                        smallNode1.getChildren().add((Pane) fxmlLoader.load());
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-
                 }
-            }else
+
+            }
+            else
             {
                 smallNode1.setStyle("-fx-background-color: #C7DCD5");
             }

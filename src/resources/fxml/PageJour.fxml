@@ -26,7 +26,6 @@
                   <MenuItem mnemonicParsing="false" onAction="#ajouterNouvellePage" text="AJouter Page" />
               <MenuItem mnemonicParsing="false" onAction="#supprimerPage" text="Supprimer Page" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" onAction="#ajouterGPS" text="Ajouter Coordonnées GPS" />
                   <MenuItem mnemonicParsing="false" onAction="#ajouterTexte" text="Ajouter Texte" />
                   <MenuItem mnemonicParsing="false" onAction="#ajouterPhoto" text="Ajouter Photo" />
                   <MenuItem fx:id="supprNode" mnemonicParsing="false" onAction="#supprimerNode" text="Supprimer une node" />

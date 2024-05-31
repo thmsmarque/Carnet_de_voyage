@@ -2,9 +2,7 @@ package vues;
 
 import cahierIG.*;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import exceptions.CahierException;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -12,7 +10,6 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import outils.ImageFileUtils;
 import vues.controlleurs.ControlleurPageDeGarde;
@@ -21,8 +18,6 @@ import vues.controlleurs.ControlleurPageJour;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.Optional;
 
 public class PanneauDeControle {
@@ -218,6 +213,9 @@ public class PanneauDeControle {
                             ecrire.write(gson.toJson(cahier.getAuteur()));
                             ecrire.newLine();
 
+                            ecrire.write(gson.toJson(cahier.getNomVoyage()));
+                            ecrire.newLine();
+
                             ecrire.write(gson.toJson(cahier.getMinimum().toString()));
                             ecrire.newLine();
 
@@ -325,6 +323,7 @@ public class PanneauDeControle {
                     BufferedReader lire = new BufferedReader(reader);
 
                     String auteur = gson.fromJson(lire.readLine(), String.class);
+                    String nomVoyage = gson.fromJson(lire.readLine(), String.class);
                     String minimum = gson.fromJson(lire.readLine(), String.class);
                     String maximum = gson.fromJson(lire.readLine(), String.class);
 
@@ -389,6 +388,7 @@ public class PanneauDeControle {
                     cahier.setMinimum(new DateCahier(minimum));
                     cahier.setMaximum(new DateCahier(maximum));
                     cahier.setAuteur(auteur);
+                    cahier.setNomVoyage(nomVoyage);
                     this.cahier.chargerCahier(cahier);
                     this.cahier = cahier;
                     this.retourPageDeGarde();

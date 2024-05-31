@@ -32,16 +32,22 @@ public class ControlleurPageDeGarde implements Observateur{
     private MenuItem ajouterParticipantButton;
 
     @FXML
+    private MenuItem changerAuteurButton;
+
+    @FXML
     private MenuItem chargerButton;
 
     @FXML
     private ListView<String> listeParticipants;
 
-    ObservableList<String> items;
-
+    @FXML
+    private Label nomAuteur;
 
     @FXML
-    private Button pageAleatoireButton;
+    private Label nomVoyage;
+
+    @FXML
+    private MenuItem nomVoyageButton;
 
     @FXML
     private Button pdjButton;
@@ -50,9 +56,18 @@ public class ControlleurPageDeGarde implements Observateur{
     private Text plageDate;
 
     @FXML
+    private Button premierePageButton;
+
+    @FXML
     private MenuItem sauvegarderButton;
+
     @FXML
     private MenuItem supprimerParticipants;
+
+    ObservableList<String> items;
+
+
+
 
 
     Cahier c;
@@ -107,8 +122,14 @@ public class ControlleurPageDeGarde implements Observateur{
     }
 
     @FXML
-    void afficherUnePageAleatoire(ActionEvent event){
+    void afficherPremierePage(ActionEvent event){
+        if(c.getMinimum() != null)
+        {
+            p.choisirPage(c.getMinimum());
 
+            p.chargerPageActuelle();
+            c.notifierObservateurs();
+        }
     }
 
     @FXML
@@ -182,8 +203,37 @@ public class ControlleurPageDeGarde implements Observateur{
         c.getParticipants().
                 forEach(c->listeParticipants.getItems().add(c));
 
+        nomVoyage.setText(c.getNomVoyage());
+        nomAuteur.setText(c.getAuteur());
 
 
+    }
 
+    @FXML
+    void changerAuteur(ActionEvent event) {
+        TextInputDialog text = new TextInputDialog();
+        text.setTitle("Changer l'auteur");
+        text.setHeaderText("Qui est l'auteur de ce carnet de voyage?");
+        text.setContentText("");
+        Optional<String> result = text.showAndWait();
+        result.ifPresent(e -> {
+            c.setAuteur(e);
+        });
+
+        c.notifierObservateurs();
+    }
+
+    @FXML
+    void changerNomVoyage(ActionEvent event) {
+        TextInputDialog text = new TextInputDialog();
+        text.setTitle("Changer le nom du voyage");
+        text.setHeaderText("Comment appeler ce voyage?");
+        text.setContentText("");
+        Optional<String> result = text.showAndWait();
+        result.ifPresent(e -> {
+            c.setNomVoyage(e);
+        });
+
+        c.notifierObservateurs();
     }
 }

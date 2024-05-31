@@ -22,12 +22,12 @@
                   <Font name="Cooper Black" size="29.0" />
                </font>
             </Button>
-            <Button id="pageAleatoireButton" fx:id="pageAleatoireButton" alignment="CENTER" contentDisplay="CENTER" layoutX="328.0" layoutY="521.0" mnemonicParsing="false" onAction="#afficherUnePageAleatoire" prefHeight="101.0" prefWidth="225.0" style="-fx-background-color: #5BB899;" text="Page aléatoire" textAlignment="CENTER" wrapText="true">
+            <Button id="premierePageButton" fx:id="premierePageButton" alignment="CENTER" contentDisplay="CENTER" layoutX="328.0" layoutY="521.0" mnemonicParsing="false" onAction="#afficherPremierePage" prefHeight="101.0" prefWidth="225.0" style="-fx-background-color: #5BB899;" text="Première page" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font name="Cooper Black" size="29.0" />
                </font>
             </Button>
-            <Label layoutX="64.0" layoutY="14.0" prefHeight="249.0" prefWidth="472.0" text="Carnet de voyage" textAlignment="CENTER" textFill="#ffea00" wrapText="true">
+            <Label fx:id="nomVoyage" layoutY="14.0" prefHeight="212.0" prefWidth="600.0" text="Carnet de voyage" textAlignment="CENTER" textFill="#ffea00" wrapText="true">
                <font>
                   <Font name="Cooper Black" size="86.0" />
                </font>
@@ -42,6 +42,11 @@
                   <Font name="Cooper Black" size="23.0" />
                </font>
             </Text>
+            <Label fx:id="nomAuteur" alignment="CENTER_RIGHT" layoutX="451.0"  prefHeight="38.0" prefWidth="145.0" textAlignment="RIGHT" textFill="#ffeb00">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </center>
@@ -60,6 +65,10 @@
             <items>
               <MenuItem fx:id="ajouterParticipantButton" mnemonicParsing="false" onAction="#ajouterParticipant" text="Ajouter Participant" />
                   <MenuItem fx:id="supprimerParticipants" mnemonicParsing="false" onAction="#supprimerParticipants" text="Supprimer Participant" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="nomVoyageButton" mnemonicParsing="false" onAction="#changerNomVoyage" text="Changer Nom du Voyage" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="changerAuteurButton" mnemonicParsing="false" onAction="#changerAuteur" text="Changer Auteur" />
             </items>
           </Menu>
         </menus>

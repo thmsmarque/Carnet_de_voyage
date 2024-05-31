@@ -25,12 +25,16 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
     DateCahier maximum;
     @Expose
     DateCahier minimum;
+    @Expose
+    String nomVoyage;
+
 
 
     public Cahier()
     {
         participants = new ArrayList<>();
         pages = new HashMap<DateCahier, PageIG>();
+        nomVoyage = "Carnet de voyage";
     }
 
 
@@ -389,6 +393,16 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
         System.out.println("Pages : " +  pages.toString());
 
 
+    }
+
+    public String getNomVoyage()
+    {
+        return nomVoyage;
+    }
+
+    public void setNomVoyage(String nomVoyage)
+    {
+        this.nomVoyage = nomVoyage;
     }
 
     public ArrayList<String> getParticipants()
