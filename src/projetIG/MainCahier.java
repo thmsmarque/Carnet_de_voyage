@@ -46,7 +46,7 @@ public class MainCahier extends Application {
         final Scene scene = new Scene(root, 600, 700);
         stage.setScene(scene);
 
-        stage.setTitle("Test FXML");
+        stage.setTitle("Carnet de voyage");
         stage.show();
 
         stage.show();
