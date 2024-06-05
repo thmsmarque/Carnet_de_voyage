@@ -44,13 +44,13 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
      */
     public void ajouterPage(DateCahier dateCahier, String titre) throws CahierException
     {
-        System.out.println("Création d'une nouvelle page au titre de " + titre + " et à la date " + dateCahier.toString());
+        //System.out.println("Création d'une nouvelle page au titre de " + titre + " et à la date " + dateCahier.toString());
         if(this.estDejaDansCahier(dateCahier))
         {
             throw new CahierException("Problème! Cette date a déjà été attribuée à une page");
         }
         PageIG page = new PageIG(new DateCahier(dateCahier.toString()), titre);
-        System.out.println("La date de la page nouvellement crée : " +page.getDate().toString());
+        //System.out.println("La date de la page nouvellement crée : " +page.getDate().toString());
         pages.put(new DateCahier(dateCahier.toString()),page);
         courante = new DateCahier(dateCahier.toString());
 
@@ -64,17 +64,17 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
         }
         if(minimum.avant(dateCahier))
         {
-            System.out.println("Est avant le minimum");
+            //System.out.println("Est avant le minimum");
             minimum = new DateCahier(dateCahier.annee, dateCahier.mois, dateCahier.jour);
         }
         if(maximum.apres(dateCahier))
         {
-            System.out.println("Est après le maximum");
+            //System.out.println("Est après le maximum");
             maximum = new DateCahier(dateCahier.annee, dateCahier.mois, dateCahier.jour);
         }
 
-        System.out.println("Une nouvelle page a été ajoutée! => " + page.toString());
-        System.out.println("Minimum : "+minimum.toString() + " -- Maximum : " + maximum.toString());
+        //System.out.println("Une nouvelle page a été ajoutée! => " + page.toString());
+        //System.out.println("Minimum : "+minimum.toString() + " -- Maximum : " + maximum.toString());
     }
 
     public void ajouterPage(PageIG page) throws CahierException
@@ -196,15 +196,15 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
      */
     public void jourSuivant()
     {
-        System.out.println("Tentative de passage au jour suivant...\n");
+        //System.out.println("Tentative de passage au jour suivant...\n");
 
         DateCahier nouvelle = new DateCahier(courante.toString());
         if(maximum.avant(nouvelle)) {
-            System.out.println("Le jour suivant est avant le maximum...\n");
+            //System.out.println("Le jour suivant est avant le maximum...\n");
             try {
                 do {
                     nouvelle.setDate(nouvelle.jourSuivant());
-                    System.out.println("Passage au jour suivant : " + nouvelle+ " Est dans le cahier? "+  this.estDejaDansCahier(nouvelle) + " Est avant le max?" + maximum.avant(nouvelle));
+                    //System.out.println("Passage au jour suivant : " + nouvelle+ " Est dans le cahier? "+  this.estDejaDansCahier(nouvelle) + " Est avant le max?" + maximum.avant(nouvelle));
                 } while (!this.estDejaDansCahier(nouvelle) && maximum.avant(nouvelle));
                 //System.out.println("Passage au jour suivant : " + nouvelle.toString());
                 courante = nouvelle;
@@ -213,7 +213,7 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
             }
         }else
         {
-            System.out.println(nouvelle.toString() + " est après " + maximum.toString());
+            //System.out.println(nouvelle.toString() + " est après " + maximum.toString());
         }
     }
 
@@ -267,7 +267,7 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
             }
         }else
         {
-            System.out.println(nouvelle.toString() + " est avant " + minimum.toString());
+            //System.out.println(nouvelle.toString() + " est avant " + minimum.toString());
         }
     }
 
@@ -291,7 +291,7 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
      */
     public PageIG getPage(DateCahier dateCahier) throws CahierException
     {
-        System.out.println("Date à récupérer :"+ dateCahier.toString());
+        //System.out.println("Date à récupérer :"+ dateCahier.toString());
         if(!this.estDejaDansCahier(dateCahier))
         {
             throw new CahierException("Problème! Cette page " + dateCahier +" n'existe pas");
@@ -300,9 +300,9 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
             PageIG page = pages.get(dateCahier);
             if(page==null)
             {
-                System.out.println("Page n'existe pas dans getPage(DateCahier dateCahier)\n");
+                //System.out.println("Page n'existe pas dans getPage(DateCahier dateCahier)\n");
             }else {
-                System.out.println("Page renvoyée : " + page.toString());
+                //System.out.println("Page renvoyée : " + page.toString());
             }
             return page;
         }
@@ -386,11 +386,11 @@ public class Cahier extends SujetObserve implements Iterable<PageIG>{
         }
         this.auteur = c.getAuteur();
 
-        System.out.println("Auteur : " +auteur);
-        System.out.println("Minimum : " + minimum.toString());
-        System.out.println("Maximum : " +maximum.toString());
-        System.out.println("Participants : "+participants);
-        System.out.println("Pages : " +  pages.toString());
+        //System.out.println("Auteur : " +auteur);
+        //System.out.println("Minimum : " + minimum.toString());
+        //System.out.println("Maximum : " +maximum.toString());
+        //System.out.println("Participants : "+participants);
+        //System.out.println("Pages : " +  pages.toString());
 
 
     }

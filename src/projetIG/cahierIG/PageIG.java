@@ -68,12 +68,28 @@ public class PageIG implements Iterable<NodeIG>{
 
     /**
      * Récupère une node de la page
-     * @param id récupère la node portant cet identifiant
+     * @param node récupère la node portant cet identifiant
      * @return une node
      */
-    public NodeIG getNodeIG(String id)
+    public NodeIG getNodeIG(int node)
     {
-        return null;
+        if(node == 2)
+        {
+            return smallNodeLeftBottom;
+        }
+        if(node == 3)
+        {
+            return smallNodeRightBottom;
+        }
+        if(node == 4)
+        {
+            return smallNodeLeftTop;
+        }
+        if(node == 5)
+        {
+           return smallNodeRightTop;
+        }
+        else return null;
     }
 
     /**
@@ -150,7 +166,7 @@ public class PageIG implements Iterable<NodeIG>{
         {
             nodeSelectionnee = smallNodeRightTop;
         }
-        System.out.println("Node selected après setNodeSelec : " + nodeSelectionnee);
+        //System.out.println("Node selected après setNodeSelec : " + nodeSelectionnee);
     }
 
 

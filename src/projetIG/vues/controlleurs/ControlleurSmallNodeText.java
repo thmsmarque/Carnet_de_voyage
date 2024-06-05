@@ -38,15 +38,15 @@ public class ControlleurSmallNodeText {
             if(node.getTexte() != null)
                 this.text.setText(node.getTexte());
             else
-                System.out.println("Le texte est nulle");
+                //System.out.println("Le texte est nulle");
         else
-            System.out.println("Node est nulle");
+            //System.out.println("Node est nulle");
     }
 
     @FXML
     void changerTexte()
     {
-        System.out.println("Pane pressed");
+        //System.out.println("Pane pressed");
 ;        TextInputDialog text = new TextInputDialog();
         text.setTitle("Changer texte");
         text.setHeaderText("Que veux-tu écrire à cet emplacement? :)");

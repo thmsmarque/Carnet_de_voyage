@@ -94,6 +94,8 @@ public class ControlleurPageDeGarde implements Observateur{
 
     @FXML
     void initialize() {
+        pdjButton.setTooltip(new Tooltip("Direction page du jour"));
+        premierePageButton.setTooltip(new Tooltip("Direction première page du cahier"));
     }
 
     @FXML

@@ -61,22 +61,6 @@ public class PanneauDeControle {
         }
     }
 
-    /**
-     * Change le style du cahier
-     */
-    public void changerStyle()
-    {
-
-    }
-
-    /**
-     * Ajoute la node à l'emplacement séléctionné
-     * @param type type de la node à ajouter
-     */
-    public void ajouterNode(String type)
-    {
-
-    }
 
     /**
      * Supprime la node séléctionnée
@@ -181,7 +165,7 @@ public class PanneauDeControle {
         File selectedDirectory = directoryChooser.showDialog(stage);
 
         if (selectedDirectory != null) {
-            System.out.println("Répertoire sélectionné : " + selectedDirectory.getAbsolutePath());
+            //System.out.println("Répertoire sélectionné : " + selectedDirectory.getAbsolutePath());
 
             TextInputDialog dialog = new TextInputDialog();
             dialog.setTitle("Nom du nouveau répertoire");
@@ -201,7 +185,7 @@ public class PanneauDeControle {
                         {
                             if(imagesDirectory.mkdir())
                             {
-                                System.out.println("Répértoire images crée");
+                                //System.out.println("Répértoire images crée");
                             }
                         }
                         try
@@ -260,7 +244,7 @@ public class PanneauDeControle {
                                             ecrire.write(gson.toJson('i'));
                                             ecrire.newLine();
                                             String pathToImage = imagesDirectory.getAbsolutePath()+"/image"+indice+".png";
-                                            ecrire.write(gson.toJson(pathToImage));
+                                            ecrire.write(gson.toJson("/images/image"+indice+".png"));
                                             ecrire.newLine();
                                             ImageFileUtils.saveImageToFile(nt.getImage(),pathToImage);
                                         }
@@ -289,7 +273,7 @@ public class PanneauDeControle {
             });
 
         } else {
-            System.out.println("Aucun répertoire sélectionné");
+            //System.out.println("Aucun répertoire sélectionné");
             throw new CahierException("Problème: Un répértoire n'a pas été séléctioné");
         }
 
@@ -318,7 +302,6 @@ public class PanneauDeControle {
             if(file.exists()) {
                 try (FileReader reader = new FileReader(file)) {
 
-                    File imagesDirectory = new File(selectedDirectory, "images");
 
                     BufferedReader lire = new BufferedReader(reader);
 
@@ -352,23 +335,23 @@ public class PanneauDeControle {
                         int compteur = 2;
                         for(NodeIG n : page)
                         {
-                            System.out.println("Parcours node");
+                            //System.out.println("Parcours node");
                             char typeNode = gson.fromJson(lire.readLine(), char.class);
 
 
                             if(typeNode == 't')
                             {
-                                System.out.println("Chargement texte");
+                                //System.out.println("Chargement texte");
                                 NodeTexteIG node = new NodeTexteIG(gson.fromJson(lire.readLine(), String.class));
-                                System.out.println(node.getTexte());
+                                //System.out.println(node.getTexte());
                                 page.setNodeIG(node,compteur);
                             }else if(typeNode == 'i')
                             {
-                                System.out.println("Chargement image");
+                                //System.out.println("Chargement image");
                                 //String pathToImage = imagesDirectory.getAbsolutePath()+"/image"+indice+".png";
                                 String pathToImage = gson.fromJson(lire.readLine(), String.class);
-                                Image img = ImageFileUtils.loadImageFromFile(pathToImage);
-                                NodeImageIG node = new NodeImageIG(ImageFileUtils.loadImageFromFile(pathToImage));
+                                Image img = ImageFileUtils.loadImageFromFile(selectedDirectory + pathToImage);
+                                NodeImageIG node = new NodeImageIG(img);
 
                                 page.setNodeIG(node,compteur);
 

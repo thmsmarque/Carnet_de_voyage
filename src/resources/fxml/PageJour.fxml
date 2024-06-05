@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="700.0" maxWidth="600.0" minHeight="700.0" minWidth="600.0" prefHeight="700.0" prefWidth="600.0" style="-fx-background-color: #519335;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vues.controlleurs.ControlleurPageJour">
+<BorderPane maxHeight="700.0" maxWidth="600.0" minHeight="700.0" minWidth="600.0" prefHeight="700.0" prefWidth="600.0" style="-fx-background-color: #519335;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vues.controlleurs.ControlleurPageJour">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -23,14 +23,12 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Edition">
             <items>
-                  <MenuItem mnemonicParsing="false" onAction="#ajouterNouvellePage" text="AJouter Page" />
+                  <MenuItem fx:id="ajoutPageButton" mnemonicParsing="false" onAction="#ajouterNouvellePage" text="AJouter Page" />
               <MenuItem mnemonicParsing="false" onAction="#supprimerPage" text="Supprimer Page" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" onAction="#ajouterTexte" text="Ajouter Texte" />
-                  <MenuItem mnemonicParsing="false" onAction="#ajouterPhoto" text="Ajouter Photo" />
+                  <MenuItem fx:id="ajoutTexteButton" mnemonicParsing="false" onAction="#ajouterTexte" text="Ajouter Texte" />
+                  <MenuItem fx:id="ajoutPhotoButton" mnemonicParsing="false" onAction="#ajouterPhoto" text="Ajouter Photo" />
                   <MenuItem fx:id="supprNode" mnemonicParsing="false" onAction="#supprimerNode" text="Supprimer une node" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" onAction="#changerStylePage" text="Changer Style Page" />
             </items>
           </Menu>
         </menus>
@@ -41,6 +39,7 @@
          <children>
             <Button fx:id="tournerGauche" layoutY="6.0" mnemonicParsing="false" onAction="#pagePrecedente" prefHeight="50.0" prefWidth="50.0" text="&lt;-" />
             <Button fx:id="tournerDroite" layoutX="549.0" layoutY="6.0" mnemonicParsing="false" onAction="#pageSuivante" prefHeight="50.0" prefWidth="50.0" text="-&gt;" />
+            <Button fx:id="retourPDGButton" alignment="CENTER" layoutX="275.0" layoutY="6.0" mnemonicParsing="false" onAction="#retourPageDeGarde" prefHeight="50.0" prefWidth="50.0" text="|" textAlignment="CENTER" />
          </children>
       </AnchorPane>
    </bottom>

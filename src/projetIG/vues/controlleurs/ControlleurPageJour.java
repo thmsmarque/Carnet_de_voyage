@@ -7,11 +7,9 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
@@ -27,13 +25,24 @@ import java.util.Optional;
 
 public class ControlleurPageJour implements Observateur {
 
+
+    @FXML
+    private MenuItem ajoutPageButton;
+
+    @FXML
+    private MenuItem ajoutPhotoButton;
+
+    @FXML
+    private MenuItem ajoutTexteButton;
+
     @FXML
     private Label date1;
 
     @FXML
     private Label date2;
 
-    
+    @FXML
+    private Button retourPDGButton;
 
     @FXML
     /**
@@ -68,6 +77,9 @@ public class ControlleurPageJour implements Observateur {
     @FXML
     private Button tournerGauche;
 
+    @FXML
+            private MenuItem supprNode;
+
     Stage stage;
 
     Pane nodeSelected;
@@ -80,6 +92,9 @@ public class ControlleurPageJour implements Observateur {
         panneauDeControle.controlleurPageJour=this;
         c.ajouterObservateur(this);
         this.stage = stage;
+
+
+
     }
 
     /**
@@ -87,11 +102,11 @@ public class ControlleurPageJour implements Observateur {
      */
     @FXML
     void initialize() {
-        System.out.println("Initialisation...");
+        //System.out.println("Initialisation...");
         PageIG page = null;
         try {
             page = (PageIG)cahier.getPage(cahier.getCourante());
-            System.out.println("Chargement lors de l'initialisation :" +page);
+            //System.out.println("Chargement lors de l'initialisation :" +page);
             date1.setText(page.getDate().toString());
             date2.setText(page.getDate().format2());
             titrePage.setText(page.getTitre());
@@ -101,7 +116,14 @@ public class ControlleurPageJour implements Observateur {
             this.smallNode3.getChildren().clear();
             this.smallNode4.getChildren().clear();
 
+            retourPDGButton.setTooltip(new Tooltip("Retour à la page de garde"));
+            tournerGauche.setTooltip(new Tooltip("Passage au jour précédent"));
+            tournerDroite.setTooltip(new Tooltip("Passage au jour suivant"));
 
+            ajoutPageButton.setAccelerator(KeyCombination.keyCombination("Ctrl+A"));
+            ajoutPhotoButton.setAccelerator(KeyCombination.keyCombination("P"));
+            ajoutTexteButton.setAccelerator(KeyCombination.keyCombination("T"));
+            supprNode.setAccelerator(KeyCombination.keyCombination("Ctrl + S"));
 
 
         } catch (CahierException e) {
@@ -125,9 +147,26 @@ public class ControlleurPageJour implements Observateur {
 
         if (file != null) {
             Image image = new Image(file.toURI().toString());
-            cahier.getPageCourante().setNodeIG(new NodeImageIG(image),getIntNodeSelected());
-        }
+            if(cahier.getPageCourante().getNodeIG(this.getIntNodeSelected()) != null)
+            {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmation");
+                alert.setHeaderText(null);
+                alert.setContentText("Voulez-vous remplacer la node actuelle?");
+                ButtonType buttonYes = new ButtonType("Oui");
+                ButtonType buttonNo = new ButtonType("Non");
+                alert.getButtonTypes().setAll(buttonYes, buttonNo);
+                Optional<ButtonType> result = alert.showAndWait();
 
+                if (result.isPresent() && result.get() == buttonYes) {
+                    cahier.getPageCourante().setNodeIG(new NodeImageIG(image),getIntNodeSelected());
+                }
+            }else
+            {
+                cahier.getPageCourante().setNodeIG(new NodeImageIG(image),getIntNodeSelected());
+            }
+        }
+        cahier.getPageCourante().deselectionnerNode();
         cahier.notifierObservateurs();
     }
 
@@ -139,8 +178,26 @@ public class ControlleurPageJour implements Observateur {
         text.setContentText("");
         Optional<String> result = text.showAndWait();
         result.ifPresent(e -> {
-            cahier.getPageCourante().setNodeIG(new NodeTexteIG(e), getIntNodeSelected());
+            if(cahier.getPageCourante().getNodeIG(this.getIntNodeSelected()) != null)
+            {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmation");
+                alert.setHeaderText(null);
+                alert.setContentText("Voulez-vous remplacer la node actuelle?");
+                ButtonType buttonYes = new ButtonType("Oui");
+                ButtonType buttonNo = new ButtonType("Non");
+                alert.getButtonTypes().setAll(buttonYes, buttonNo);
+                Optional<ButtonType> res = alert.showAndWait();
+
+                if (res.isPresent() && res.get() == buttonYes) {
+                    cahier.getPageCourante().setNodeIG(new NodeTexteIG(e.toString()),getIntNodeSelected());
+                }
+            }else
+            {
+                cahier.getPageCourante().setNodeIG(new NodeTexteIG(e.toString()),getIntNodeSelected());
+            }
         });
+        cahier.getPageCourante().deselectionnerNode();
 
         cahier.notifierObservateurs();
     }
@@ -200,7 +257,7 @@ public class ControlleurPageJour implements Observateur {
     @FXML
     void selectionnerNode(MouseEvent event)
     {
-        System.out.println(event.getSource().toString());
+        //System.out.println(event.getSource().toString());
 
         if(event.getSource() == nodeSelected)
         {
@@ -210,8 +267,8 @@ public class ControlleurPageJour implements Observateur {
             nodeSelected = (Pane) event.getSource();
         }
 
-        System.out.println("La node séléctionnée : " + nodeSelected);
-        System.out.println("La node séléctionnée dans la page : " + cahier.getPageCourante().getNodeSelectionnee());
+        //System.out.println("La node séléctionnée : " + nodeSelected);
+        //System.out.println("La node séléctionnée dans la page : " + cahier.getPageCourante().getNodeSelectionnee());
         cahier.notifierObservateurs();
     }
 
@@ -277,6 +334,7 @@ public class ControlleurPageJour implements Observateur {
     @FXML
     void supprimerNode(ActionEvent event) {
         cahier.getPageCourante().supprimerNodeIG(getIntNodeSelected());
+        cahier.getPageCourante().deselectionnerNode();
         cahier.notifierObservateurs();
     }
 
@@ -290,7 +348,7 @@ public class ControlleurPageJour implements Observateur {
 
         if(cahier.getCourante() != null) {
             page = cahier.getPageCourante();
-            System.out.println(page.toString());
+            //System.out.println(page.toString());
             date1.setText(page.getDate().toString());
             date2.setText(page.getDate().format2());
             titrePage.setText(page.getTitre());

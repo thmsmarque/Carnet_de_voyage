@@ -17,17 +17,17 @@
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <ListView id="ListeParticipants" fx:id="listeParticipants" layoutX="84.0" layoutY="360.0" prefHeight="304.0" prefWidth="163.0" style="-fx-background-color: #336655;" />
-            <Button id="PageDuJourButton" fx:id="pdjButton" alignment="CENTER" contentDisplay="CENTER" layoutX="328.0" layoutY="383.0" mnemonicParsing="false" onAction="#afficherPageDuJour" prefHeight="101.0" prefWidth="225.0" style="-fx-background-color: #5BB899;" text="Page du jour" textAlignment="CENTER" wrapText="true">
+            <Button id="PageDuJourButton" fx:id="pdjButton" alignment="CENTER" contentDisplay="CENTER" layoutX="328.0" layoutY="383.0" mnemonicParsing="false" onAction="#afficherPageDuJour" prefHeight="101.0" prefWidth="225.0" style="-fx-background-color: #5BB899; -fx-background-radius: 20px; -fx-border-radius: 20px;" text="Page du jour" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font name="Cooper Black" size="29.0" />
                </font>
             </Button>
-            <Button id="premierePageButton" fx:id="premierePageButton" alignment="CENTER" contentDisplay="CENTER" layoutX="328.0" layoutY="521.0" mnemonicParsing="false" onAction="#afficherPremierePage" prefHeight="101.0" prefWidth="225.0" style="-fx-background-color: #5BB899;" text="Première page" textAlignment="CENTER" wrapText="true">
+            <Button id="premierePageButton" fx:id="premierePageButton" alignment="CENTER" contentDisplay="CENTER" layoutX="328.0" layoutY="521.0" mnemonicParsing="false" onAction="#afficherPremierePage" prefHeight="101.0" prefWidth="225.0" style="-fx-background-color: #5BB899; -fx-border-radius: 20px; -fx-background-radius: 20px;" text="Première page" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font name="Cooper Black" size="29.0" />
                </font>
             </Button>
-            <Label fx:id="nomVoyage" layoutY="14.0" prefHeight="212.0" prefWidth="600.0" text="Carnet de voyage" textAlignment="CENTER" textFill="#ffea00" wrapText="true">
+            <Label fx:id="nomVoyage" alignment="CENTER" contentDisplay="CENTER" layoutY="14.0" prefHeight="212.0" prefWidth="600.0" text="Carnet de voyage" textAlignment="CENTER" textFill="#ffea00" wrapText="true">
                <font>
                   <Font name="Cooper Black" size="86.0" />
                </font>
@@ -42,7 +42,7 @@
                   <Font name="Cooper Black" size="23.0" />
                </font>
             </Text>
-            <Label fx:id="nomAuteur" alignment="CENTER_RIGHT" layoutX="451.0"  prefHeight="38.0" prefWidth="145.0" textAlignment="RIGHT" textFill="#ffeb00">
+            <Label fx:id="nomAuteur" alignment="CENTER_RIGHT" layoutX="451.0" prefHeight="38.0" prefWidth="145.0" textAlignment="RIGHT" textFill="#ffeb00">
                <font>
                   <Font size="17.0" />
                </font>
