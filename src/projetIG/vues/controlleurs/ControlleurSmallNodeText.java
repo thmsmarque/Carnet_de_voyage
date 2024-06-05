@@ -37,10 +37,7 @@ public class ControlleurSmallNodeText {
         if(node != null)
             if(node.getTexte() != null)
                 this.text.setText(node.getTexte());
-            else
-                //System.out.println("Le texte est nulle");
-        else
-            //System.out.println("Node est nulle");
+
     }
 
     @FXML

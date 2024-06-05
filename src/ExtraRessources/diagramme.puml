@@ -11,16 +11,7 @@ package projetIG
 
 package vues{
 
-class Pane<<java>>
-class VBox<<java>>
-class BorderPane<<java>>
-class Button<<java>>
-class TilePane<<java>>
-class EventHandler<<java>>
-class InputField<<java>>
-class MenuBar<<java>>
-class MenuItem<<java>>
-class Menu<<java>>
+
 
 interface Observateur {
           void reagir()
@@ -41,112 +32,60 @@ public void ajouterPage()
 public void ajouterParticipant()
 }
 
-class VueCahierIG extends BorderPane implements Observateur
+package controlleurs{
+class ControlleurPageDeGarde implements Observateur
 {
-public VueCahierIG()
-public reagir()
+    public ControlleurPageDeGarde(Cahier c, PanneauDeControle p)
+    public void initData(Cahier c, PanneauDeControle p) {
+    void initialize() {
+    void afficherPageDuJour(ActionEvent event)
+    void afficherPremierePage(ActionEvent event)
+    void ajouterParticipant(ActionEvent event)
+    void chargerCarnet(ActionEvent event)
+    void fermerCarnet(ActionEvent event)
+    void sauvegargerCarnet(ActionEvent event)
+    void supprimerParticipants(ActionEvent event)
+    public void reagir()
+    void changerAuteur(ActionEvent event)
+    void changerNomVoyage(ActionEvent event)
+}
+class ControlleurPageJour implements Observateur
+{
+    public ControlleurPageJour(Cahier c, PanneauDeControle panneauDeControle, Stage stage) {
+    void initialize()
+    void ajouterPhoto(ActionEvent event)
+    void ajouterTexte(ActionEvent event)
+    void changerStylePage(ActionEvent event)
+    void changerTitre()
+    void pagePrecedente(ActionEvent event)
+    void pageSuivante(ActionEvent event)
+    void selectionnerNode(MouseEvent event)
+    void fermerCarnet(ActionEvent event)
+    void ajouterNouvellePage(ActionEvent event)
+    void supprimerPage(ActionEvent event)
+    public void reagir()
+}
+class ControlleurSmallNodeImage implements Observateur
+{
+    public ControlleurSmallNodeImage(NodeImageIG node, Stage stage)
+    void initialize()
+    void modifierImage()
+
+}
+class ControlleurSmallNodeText implements Observateur
+{
+    public ControlleurSmallNodeText(NodeTexteIG node)
+    void initialize()
+    void changerTexte()
 
 }
 
-Abstract VuePageIG extends VBox implements Observateur
-{
-public VuePageIG(Cahier c, PageIG page)
-}
-
-class VuePageJourIG extends VuePageIG
-{
-public VuePageJourIG(Cahier c)
-public void reagir()
-}
-
-class VuePageDeGardeIG extends VuePageIG
-{
-public VuePageDeGardeIG(Cahier c)
-public void reagir()
-}
-
-class VueNodeIG extends Pane implements Observateur
-{
-public VueNodeIG()
-public reagir()
-}
-
-class VueChangePage extends TilePane implements Observateur
-{
-public VueChangePage(Cahier C)
-public reagir()
-}
-
-class VueMenuBar extends MenuBar implements Observateur
-{
-public VueMenurBar(Cahier c)
-void reagit()
-}
-
-class EcouteurModeEditionLecture extends PanneauDeControle implements Observateur
-{
-public EcouteurModeEditionLecture(Cahier c)
-void handler(ActionEvent event)
-}
-
-class EcouteurChangerStyle extends PanneauDeControle implements  EventHandler
-{
-public EcouteurChangerStyle(Cahier c)
-void handler(ActionEvent event)
-}
-
-
-class EcouteurBoutonDernierePage extends PanneauDeControle implements EventHandler
-{
-public EcouteurBoutonDernierePage(Cahier c)
-void handler(ActionEvent event)
-}
-
-class EcouteurTournerGauche extends PanneauDeControle implements EventHandler
-{
-public EcouteurTournerGauche(VueChangePage ch)
-void handle(ActionEvent event)
-}
-
-class EcouteurTournerDroite extends PanneauDeControle implements EventHandler
-{
-public EcouteurTournerDroite(VueChangePage ch)
-void handle(ActionEvent event)
-}
-
-class EcouteurAjoutNodeTexte extends PanneauDeControle implements EventHandler
-{
-public EcouteurAjoutNodeTexte()
-void handle(ActionEvent event)
-}
-
-class EcouteurAjoutNodeGPS extends PanneauDeControle implements EventHandler
-{
-public EcouteurAjoutNodeGPS()
-void handle(ActionEvent event)
-}
-
-class EcouteurAjoutNodeImage extends PanneauDeControle implements EventHandler
-{
-public EcouteurAjoutNodeImage()
-void handle(ActionEvent event)
-}
-
-class EcouteurChangementPage extends PanneauDeControle implements EventHandler
-{
-public EcouteurChangementPage(VueChangePage ch)
-void handle(ActionEvent event)
-}
-
-class EcouteurPageAleatoire extends PanneauDeControle implements EventHandler
-{
-public EcouteurPageAleatoire(CahierIG c)
-void handle(ActionEvent event)
 }
 
 }
 
 package outils{
+
 
 class FabriqueIdentifiant {
 int noPage
@@ -156,6 +95,11 @@ String getIdentifiantPage()
 String getIdentifiantNode()
 void resetNode()
 void resetPage()
+}
+
+class ImageFileUtils{
+    public static void saveImageToFile(Image image, String filePath)
+    public static Image loadImageFromFile(String filePath)
 }
 
 
@@ -173,17 +117,8 @@ class SujetObserve {
 void notifierObservateurs()
 }
 
-Interface IterablePageIG<PageIG><<java>>
-{
-Iterator<PageIG> iterator()
-}
 
-Interface IterableNodeIG<NodeIG><<java>>
-{
-Iterator<NodeIG> iterator()
-}
-
-class Cahier extends SujetObserve implements IterablePageIG{
+class Cahier extends SujetObserve{
 string auteur
 string intervalleTemps
 ArrayList<string> participants
@@ -200,7 +135,7 @@ public void choisirPage(string id)
 public void ajouterParticipant(string nom)
 }
 
-Abstract PageIG implements IterableNodeIG{
+Abstract PageIG{
 string identifiantPage
 string titre
 
@@ -209,15 +144,6 @@ public void setNodeIG(NodeIG node)
 public void supprimerNodeIG(string id)
 }
 
-Class PageDeGardeIG extends PageIG
-{
-public PageDeGardeIG(string nomPrenom, string intervalleTemps,string[] participants)
-}
-
-Class PageJourIG extends PageIG
-{
-
-}
 
 Abstract NodeIG
 {
@@ -241,12 +167,6 @@ public string getImage()
 public void setImage(string Image)
 }
 
-class NodeGPSIG extends NodeIG
-{
-string coordGPS
-public string getCoordGPS()
-public void setCoordGPS(string c)
-}
 
 }
 
@@ -254,21 +174,6 @@ SujetObserve "1"-right "*" Observateur
 Cahier --"*" PageIG
 NodeIG "*"-- PageIG
 PageIG --"1" DateCahier
-VuePageDeGardeIG --"*" Button
-VuePageJourIG --"*" Button
-VueChangePage --"1" InputField
-VueChangePage --"*" Button
-VueChangePage --"1" Cahier
-VueCahierIG --"1" Cahier
-VuePageJourIG --"1" Cahier
-EcouteurTournerGauche --"1" VueChangePage
-EcouteurTournerDroite --"1" VueChangePage
-EcouteurChangementPage --"1" VueChangePage
-EcouteurPageAleatoire --"1" Cahier
-EcouteurBoutonDernierePage --"1"Cahier
-VueMenuBar --"1" Cahier
-EcouteurChangerStyle --"1" VueMenuBar
-VueMenuBar --"*" MenuItem
 PanneauDeControle --"1" Cahier
 
 
